@@ -2,12 +2,14 @@ package com.example.meraki.services;
 
 
 import com.example.meraki.common.createrequests.CreateNetworksRequestDTO;
-//import com.example.meraki.common.updaterequests.UpdateNetworksRequestDTO;
 import com.example.meraki.common.updaterequests.UpdateNetworksRequestDTO;
-import com.example.meraki.entities.*;
-import com.example.meraki.repositories.*;
+import com.example.meraki.entities.Networks;
+import com.example.meraki.entities.Organisations;
+import com.example.meraki.entities.User;
+import com.example.meraki.repositories.NetworksRepository;
+import com.example.meraki.repositories.OrganisationsRepository;
+import com.example.meraki.repositories.UserRepository;
 import com.example.meraki.services.response.CreateNetworksResponse;
-//import com.example.meraki.services.response.UpdateNetworksResponse;
 import com.example.meraki.services.response.UpdateNetworksResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

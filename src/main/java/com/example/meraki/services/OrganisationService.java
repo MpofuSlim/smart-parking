@@ -2,7 +2,8 @@ package com.example.meraki.services;
 
 import com.example.meraki.common.createrequests.CreateOrganisationRequestDTO;
 import com.example.meraki.common.updaterequests.UpdateOrganisationsRequestDTO;
-import com.example.meraki.entities.*;
+import com.example.meraki.entities.Organisations;
+import com.example.meraki.entities.User;
 import com.example.meraki.repositories.OrganisationsRepository;
 import com.example.meraki.repositories.UserRepository;
 import com.example.meraki.services.response.CreateOrganisationResponse;

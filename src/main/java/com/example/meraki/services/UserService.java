@@ -2,7 +2,6 @@ package com.example.meraki.services;
 
 import com.example.meraki.common.createrequests.CreateUserRequestDTO;
 import com.example.meraki.common.misc.UserLoginRequestDTO;
-import com.example.meraki.entities.Role;
 import com.example.meraki.entities.User;
 import com.example.meraki.repositories.UserRepository;
 import com.example.meraki.services.response.CreateUserResponse;

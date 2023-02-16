@@ -2,7 +2,6 @@ package com.example.meraki.services;
 
 
 import com.example.meraki.common.createrequests.CreateSplashPageLoginsRequestDTO;
-import com.example.meraki.entities.Batch;
 import com.example.meraki.entities.Customers;
 import com.example.meraki.entities.SplashPageLogins;
 import com.example.meraki.repositories.CustomersRepository;
