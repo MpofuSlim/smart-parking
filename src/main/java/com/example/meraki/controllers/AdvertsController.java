@@ -20,15 +20,6 @@ public class AdvertsController {
     private AdvertsService advertsService;
 
     @CrossOrigin
-    @PostMapping(path = "/adverts/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Create Adverts", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-
-    private Response<CreateAdvertsResponse> createAdvertsId(@RequestBody CreateAdvertsRequestDTO createAdvertsRequestDTO) {
-
-        CreateAdvertsResponse  createAdvertsResponse = advertsService.createAdverts(createAdvertsRequestDTO);
-        return new Response<>(ResponseCode.SUCCESS, "Advert added.", createAdvertsResponse);
-    }
-    @CrossOrigin
     @GetMapping(path = "/adverts/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "list all adverts", produces = MediaType.APPLICATION_JSON_VALUE)
 
@@ -66,7 +57,15 @@ public class AdvertsController {
         return new Response<>(ResponseCode.SUCCESS, "OK", activeList);
 
     }
+    @CrossOrigin
+    @PostMapping(path = "/adverts/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Create Adverts", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 
+    private Response<CreateAdvertsResponse> createAdvertsId(@RequestBody CreateAdvertsRequestDTO createAdvertsRequestDTO) {
+
+        CreateAdvertsResponse  createAdvertsResponse = advertsService.createAdverts(createAdvertsRequestDTO);
+        return new Response<>(ResponseCode.SUCCESS, "Advert added.", createAdvertsResponse);
+    }
 
 
     @CrossOrigin

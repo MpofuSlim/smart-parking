@@ -15,7 +15,7 @@ public class BasePriceDTO {
 
 
 
-    @ApiModelProperty(value = "", example = "")
+    @ApiModelProperty(value = "", example = "7.89")
     private Double price;
 
 

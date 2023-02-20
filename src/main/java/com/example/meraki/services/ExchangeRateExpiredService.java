@@ -2,10 +2,10 @@ package com.example.meraki.services;
 
 import com.example.meraki.common.createrequests.CreateExchangeRateExpiredRequestDTO;
 import com.example.meraki.common.updaterequests.UpdateExchangeRateExpiredRequestDTO;
+import com.example.meraki.entities.AdminPortalUsers;
 import com.example.meraki.entities.ExchangeRateExpired;
-import com.example.meraki.entities.User;
+import com.example.meraki.repositories.AdminPortalUsersRepository;
 import com.example.meraki.repositories.ExchangeRateExpiredRepository;
-import com.example.meraki.repositories.UserRepository;
 import com.example.meraki.services.response.CreateExchangeRateExpiredResponse;
 import com.example.meraki.services.response.UpdateExchangeRateExpiredResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +18,13 @@ import java.util.List;
 public class ExchangeRateExpiredService {
     @Autowired
     private ExchangeRateExpiredRepository exchangeRateExpiredRepository;
-    @Autowired
-    private UserRepository userRepository;
 
-    public ExchangeRateExpiredService( ExchangeRateExpiredRepository exchangeRateExpiredRepository) {
+    private final AdminPortalUsersRepository adminPortalUsersRepository;
+
+    public ExchangeRateExpiredService( ExchangeRateExpiredRepository exchangeRateExpiredRepository,
+                                       AdminPortalUsersRepository adminPortalUsersRepository) {
         this.exchangeRateExpiredRepository = exchangeRateExpiredRepository;
+        this.adminPortalUsersRepository = adminPortalUsersRepository;
     }
 
     public ExchangeRateExpired getExchangeRateExpired(Long id) {
@@ -32,7 +34,7 @@ public class ExchangeRateExpiredService {
     public List<ExchangeRateExpired> getAllExchangeRatesExpired() {return exchangeRateExpiredRepository.findAll();}
 
     public CreateExchangeRateExpiredResponse createExchangeRateExpired(CreateExchangeRateExpiredRequestDTO createExchangeRateExpiredRequestDTO) throws IOException {
-        User user1 = userRepository.getReferenceById(createExchangeRateExpiredRequestDTO.getUserID());
+        AdminPortalUsers user1 = adminPortalUsersRepository.getReferenceById(createExchangeRateExpiredRequestDTO.getUserID());
         ExchangeRateExpired exchangeRateExpired = new ExchangeRateExpired(
                 user1,
                 createExchangeRateExpiredRequestDTO.getExchangeRateExpired().getRate(),

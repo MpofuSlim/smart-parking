@@ -35,6 +35,7 @@ public class BatchService {
 
     public List<Batch> getBatchByActive(Boolean active) {
         return batchRepository.findByActive(active);
+
     }
 
     public Batch getBatch(Long id) {
@@ -46,6 +47,7 @@ public class BatchService {
         Batch batch = new Batch(
 
                 createBatchRequestDTO.getBatch().getBatchName(),
+                false,
                 false
         );
         batchRepository.save(batch);
@@ -62,6 +64,7 @@ public class BatchService {
         Batch batch = new Batch(
 
                 createSellBatchRequestDTO.getBatch().getBatchName(),
+                false,
                 false
         );
 
@@ -79,12 +82,14 @@ public class BatchService {
         Batch batch = batchRepository.getReferenceById(updateBatchRequestDTO.getId());
         batch.setBatchName(updateBatchRequestDTO.getBatchName());
         batch.setActive(updateBatchRequestDTO.getActive());
+        batch.setSuspended(updateBatchRequestDTO.getSuspended());
 
         batchRepository.save(batch);
 
         UpdateBatchResponse updateBatchResponse = new UpdateBatchResponse(
                 batch.getBatchName(),
-                batch.getActive()
+                batch.getActive(),
+                batch.getSuspended()
         );
 
         return updateBatchResponse;

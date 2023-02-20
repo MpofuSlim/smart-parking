@@ -20,4 +20,10 @@ public class Batch extends BaseEntity {
 
     @Column(name = "active", nullable = false)
     private Boolean active;
+
+    @Column(name = "suspended", nullable = false)
+    private Boolean suspended;
+
+
+
 }

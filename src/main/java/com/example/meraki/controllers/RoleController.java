@@ -22,18 +22,6 @@ public class RoleController {
     private RoleService roleService;
 
     @CrossOrigin
-    @PostMapping(path = "/role/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Create role ", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response<CreateRoleResponse> createRole(
-            @ApiParam(required = true) @RequestBody CreateRoleRequestDTO createRoleRequestDTO) {
-
-        CreateRoleResponse createRoleResponse = roleService.CreateRole(createRoleRequestDTO);
-
-        return new Response<>(ResponseCode.SUCCESS, "Ok", createRoleResponse);
-
-    }
-
-    @CrossOrigin
     @GetMapping(path = "/role/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "list all roles", produces = MediaType.APPLICATION_JSON_VALUE)
     public Response<List<Role>> listAllPayments(
@@ -43,6 +31,18 @@ public class RoleController {
         roles = roleService.getAllRoles();
 
         return new Response<>(ResponseCode.SUCCESS, "OK", roles);
+    }
+
+    @CrossOrigin
+    @PostMapping(path = "/role/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Create role ", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response<CreateRoleResponse> createRole(
+            @ApiParam(required = true) @RequestBody CreateRoleRequestDTO createRoleRequestDTO) {
+
+        CreateRoleResponse createRoleResponse = roleService.CreateRole(createRoleRequestDTO);
+
+        return new Response<>(ResponseCode.SUCCESS, "Ok", createRoleResponse);
+
     }
 
     @CrossOrigin

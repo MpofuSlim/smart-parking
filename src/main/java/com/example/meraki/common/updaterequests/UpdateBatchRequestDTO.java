@@ -21,4 +21,6 @@ public class UpdateBatchRequestDTO {
     @Column(name = "active", nullable = false)
     private Boolean active = false;
 
+    @Column(name = "suspended", nullable = false)
+    private Boolean suspended = false;
 }

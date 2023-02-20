@@ -20,7 +20,6 @@ public class Payments extends BaseEntity {
     @JoinColumn(name = "customer_id", nullable = false)
     private Customers customers;
 
-
     @Column(name = "amountPaid", nullable = false)
     private Double amountPaid;
 

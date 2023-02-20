@@ -33,6 +33,18 @@ public class SplashPageConnectionsController {
     private VouchersService vouchersService;
 
     @CrossOrigin
+    @GetMapping(path = "/splash_page_connections/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "list all splash_page_connections", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response<List<SplashPageConnections>> listAllPayments(
+    ) {
+        List<SplashPageConnections> splashPageConnections;
+
+        splashPageConnections = splashPageConnectionsService.getAllSplashPageConnections();
+
+        return new Response<>(ResponseCode.SUCCESS, "OK", splashPageConnections);
+    }
+
+    @CrossOrigin
     @PostMapping(path = "/splash_page_connections/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "all splash connections", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     private Response<SplashPageConnectionDetailDTO> CreateSplashPageConnections(@RequestBody CreateSplashPageConnectionsRequestDTO createSplashPageConnectionsRequestDTO) {
@@ -50,18 +62,6 @@ public class SplashPageConnectionsController {
 
         }
         return new Response<>(ResponseCode.SUCCESS, "splashPageConnection  added.", splashPageConnectionDetailDTO);
-    }
-
-    @CrossOrigin
-    @GetMapping(path = "/splash_page_connections/", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "list all splash_page_connections", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response<List<SplashPageConnections>> listAllPayments(
-    ) {
-        List<SplashPageConnections> splashPageConnections;
-
-        splashPageConnections = splashPageConnectionsService.getAllSplashPageConnections();
-
-        return new Response<>(ResponseCode.SUCCESS, "OK", splashPageConnections);
     }
 
 

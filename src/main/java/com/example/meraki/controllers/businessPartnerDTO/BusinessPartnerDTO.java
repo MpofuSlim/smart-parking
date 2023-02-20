@@ -15,19 +15,19 @@ import lombok.*;
 @ApiModel(description = "business_partner")
 public class BusinessPartnerDTO {
 
-    @ApiModelProperty(value = "name of business partner", example = "")
+    @ApiModelProperty(value = "name of business partner", example = "Shearwater")
     private String name;
 
-    @ApiModelProperty(value = "business-address", example = "")
+    @ApiModelProperty(value = "business-address", example = "17 Harare Drive")
     private String businessAddress;
 
-    @ApiModelProperty(value = "email", example = "")
+    @ApiModelProperty(value = "email", example = "shearwater@gmail.com")
     private String email;
 
-    @ApiModelProperty(value = "phone number", example = "")
+    @ApiModelProperty(value = "phone number", example = "0777756478")
     private String phoneNumber;
 
-    @ApiModelProperty(value = "true/false", example = "")
+    @ApiModelProperty(value = "true/false", example = "true")
     private Boolean active;
 
 

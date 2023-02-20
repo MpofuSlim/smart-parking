@@ -1,7 +1,7 @@
 package com.example.meraki.controllers.vouchersDTO;
 
+import com.example.meraki.controllers.adminPortalUsersDTO.AdminPortalUsersDTO;
 import com.example.meraki.controllers.batchDTO.BatchDTO;
-import com.example.meraki.controllers.userDTO.UserDTO;
 import com.example.meraki.controllers.bundlesDTO.BundlesDTO;
 import com.example.meraki.controllers.orderDTO.OrderDTO;
 import io.swagger.annotations.ApiModel;
@@ -17,7 +17,7 @@ public class VoucherBatchDetailDTO {
 
     private VouchersDTO vouchers;
 
-    private UserDTO user;
+    private AdminPortalUsersDTO user;
 
     private BundlesDTO bundles;
 

@@ -3,10 +3,8 @@ package com.example.meraki.services;
 import com.example.meraki.common.createrequests.CreateAdminPortalUsersRolesRequestDTO;
 import com.example.meraki.common.updaterequests.UpdateAdminPortalUsersRolesRequestDTO;
 import com.example.meraki.entities.AdminPortalUsersRoles;
-import com.example.meraki.entities.User;
 import com.example.meraki.repositories.AdminPortalUsersRolesRepository;
 import com.example.meraki.repositories.RoleRepository;
-import com.example.meraki.repositories.UserRepository;
 import com.example.meraki.services.response.CreateAdminPortalUsersRolesResponse;
 import com.example.meraki.services.response.UpdateAdminPortalUsersRolesResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +18,6 @@ public class AdminPortalUsersRolesService {
 
     @Autowired
     private AdminPortalUsersRolesRepository adminPortalUsersRoleRepository;
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private RoleRepository roleRepository;
@@ -35,10 +31,8 @@ public class AdminPortalUsersRolesService {
     }
 
     public CreateAdminPortalUsersRolesResponse createAdminPortalUsersRoles(CreateAdminPortalUsersRolesRequestDTO createAdminPortalUsersRolesRequestDTO) throws IOException {
-        User user1 = userRepository.getReferenceById(createAdminPortalUsersRolesRequestDTO.getUserID());
 
         AdminPortalUsersRoles adminPortalUsersRoles = new AdminPortalUsersRoles(
-                user1,
                 createAdminPortalUsersRolesRequestDTO.getAdminPortalUsersRolesDTO().getName(),
                 createAdminPortalUsersRolesRequestDTO.getAdminPortalUsersRolesDTO().getDate_created(),
                 false
@@ -47,8 +41,8 @@ public class AdminPortalUsersRolesService {
         adminPortalUsersRoleRepository.save(adminPortalUsersRoles);
 
         return new CreateAdminPortalUsersRolesResponse(
-                adminPortalUsersRoles,
-                user1
+                adminPortalUsersRoles
+
         );
     }
 

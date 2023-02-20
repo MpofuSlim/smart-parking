@@ -26,6 +26,18 @@ public class CustomersController {
 
 
     @CrossOrigin
+    @GetMapping(path = "/customer/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "list all customers?=true/false", produces = MediaType.APPLICATION_JSON_VALUE)
+
+    public Response<List<Customers>> listCustomers() {
+        List<Customers> customers;
+
+        customers = customerService.getAllCustomers();
+
+        return new Response<>(ResponseCode.SUCCESS, "OK", customers);
+    }
+
+    @CrossOrigin
     @PostMapping(path = "/customer/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "all customers", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     private Response<CustomerDetailDTO> CreateVoucherBatch(@RequestBody CreateCustomerRequestDTO createCustomerRequestDTO) {
@@ -61,18 +73,6 @@ public class CustomersController {
                     "Incorrect username or password", null
             );
         }
-    }
-
-    @CrossOrigin
-    @GetMapping(path = "/customer/", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "list all customers?=true/false", produces = MediaType.APPLICATION_JSON_VALUE)
-
-    public Response<List<Customers>> listCustomers() {
-        List<Customers> customers;
-
-        customers = customerService.getAllCustomers();
-
-        return new Response<>(ResponseCode.SUCCESS, "OK", customers);
     }
 
     @CrossOrigin

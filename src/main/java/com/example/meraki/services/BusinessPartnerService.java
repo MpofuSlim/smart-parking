@@ -3,7 +3,9 @@ package com.example.meraki.services;
 import com.example.meraki.common.createrequests.CreateBusinessPartnerRequestDTO;
 import com.example.meraki.common.updaterequests.UpdateBusinessPartnerRequestDTO;
 import com.example.meraki.entities.BusinessPartner;
+import com.example.meraki.entities.BusinessPartnerRoles;
 import com.example.meraki.repositories.BusinessPartnerRepository;
+import com.example.meraki.repositories.BusinessPartnerRolesRepository;
 import com.example.meraki.services.response.CreateBusinessPartnerResponse;
 import com.example.meraki.services.response.UpdateBusinessPartnerResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,9 @@ import java.util.List;
 public class BusinessPartnerService {
     @Autowired
     private BusinessPartnerRepository businessPartnerRepository;
+
+    @Autowired
+    private BusinessPartnerRolesRepository businessPartnerRolesRepository;
 
     public BusinessPartnerService(BusinessPartnerRepository businessPartnerRepository) {
         this.businessPartnerRepository = businessPartnerRepository;
@@ -35,7 +40,10 @@ public class BusinessPartnerService {
 
     @Transactional
     public CreateBusinessPartnerResponse CreateBusinessPartner(CreateBusinessPartnerRequestDTO createBusinessPartnerRequestDTO) {
+        BusinessPartnerRoles businessPartnerRoles = businessPartnerRolesRepository.getReferenceById(createBusinessPartnerRequestDTO.getBusinessPartnerRolesID());
+
         BusinessPartner businessPartner = new BusinessPartner(
+                businessPartnerRoles,
                 createBusinessPartnerRequestDTO.getBusinessPartner().getName(),
                 createBusinessPartnerRequestDTO.getBusinessPartner().getBusinessAddress(),
                 createBusinessPartnerRequestDTO.getBusinessPartner().getEmail(),

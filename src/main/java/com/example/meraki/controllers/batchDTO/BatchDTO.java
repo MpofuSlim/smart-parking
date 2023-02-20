@@ -14,7 +14,7 @@ import lombok.*;
 public class BatchDTO {
 
 
-    @ApiModelProperty(value = "", example = "")
+    @ApiModelProperty(value = "", example = "Telone")
     private String batchName;
 
 

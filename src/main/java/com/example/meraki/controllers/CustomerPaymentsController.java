@@ -36,26 +36,6 @@ public class CustomerPaymentsController {
     }
 
     @CrossOrigin
-    @PostMapping(path = "/pay/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "payment update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response<CustomerPaymentDetailDTO> processPaynowUpdate(@RequestBody CreateCustomerPaymentRequestDTO createCustomerPaymentRequestDTO) {
-
-        CustomerPaymentDetailDTO customerPaymentDetailDTO = null;
-        try {
-            CreateCustomerPaymentResponse createCustomerPaymentResponse = customerPaymentService.initiateMobileMoneyPayment(createCustomerPaymentRequestDTO);
-            customerPaymentDetailDTO = new CustomerPaymentDetailDTO(
-                    CustomerPaymentDTO.fromCustomerPayment(createCustomerPaymentResponse.getCustomerPayment()),
-                    CustomersDTO.fromCustomer(customerService.getCustomer(createCustomerPaymentRequestDTO.getCustomerID()))
-            );
-
-        } catch (IOException e) {
-
-        }
-        return new Response<>(ResponseCode.SUCCESS, "payment added.", customerPaymentDetailDTO);
-
-    }
-
-    @CrossOrigin
     @GetMapping(path = "/pay/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Retrieve all customer payments", produces = MediaType.APPLICATION_JSON_VALUE)
     public Response<List<CustomerPayment>> listPayments(
@@ -66,7 +46,6 @@ public class CustomerPaymentsController {
 
         return new Response<>(ResponseCode.SUCCESS, "OK", payments);
     }
-
 
 
     @CrossOrigin
@@ -85,6 +64,26 @@ public class CustomerPaymentsController {
             List<CustomerPaymentDetailDTO> payload = customerPaymentsResult.stream().map(this::getCustomerPaymentDetail).collect(toList());
             return new Response<>(ResponseCode.SUCCESS, "OK", payload);
         }
+    }
+
+    @CrossOrigin
+    @PostMapping(path = "/pay/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "paynow payment", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response<CustomerPaymentDetailDTO> processPaynowUpdate(@RequestBody CreateCustomerPaymentRequestDTO createCustomerPaymentRequestDTO) {
+
+        CustomerPaymentDetailDTO customerPaymentDetailDTO = null;
+        try {
+            CreateCustomerPaymentResponse createCustomerPaymentResponse = customerPaymentService.initiateMobileMoneyPayment(createCustomerPaymentRequestDTO);
+            customerPaymentDetailDTO = new CustomerPaymentDetailDTO(
+                    CustomerPaymentDTO.fromCustomerPayment(createCustomerPaymentResponse.getCustomerPayment()),
+                    CustomersDTO.fromCustomer(customerService.getCustomer(createCustomerPaymentRequestDTO.getCustomerID()))
+            );
+
+        } catch (IOException e) {
+
+        }
+        return new Response<>(ResponseCode.SUCCESS, "payment added.", customerPaymentDetailDTO);
+
     }
 
     private CustomerPaymentDetailDTO getCustomerPaymentDetail(CustomerPayment customerPayment) {

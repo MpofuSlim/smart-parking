@@ -1,9 +1,6 @@
 package com.example.meraki.services.response;
 
-import com.example.meraki.entities.ExchangeRate;
-import com.example.meraki.entities.Networks;
-import com.example.meraki.entities.Organisations;
-import com.example.meraki.entities.User;
+import com.example.meraki.entities.*;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
 
@@ -17,7 +14,7 @@ public class CreateNetworksResponse {
 
     private Networks networks;
 
-    private User user;
+    private AdminPortalUsers user;
 
     private Organisations organisations;
 }

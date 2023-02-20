@@ -6,8 +6,8 @@ import com.example.meraki.common.createrequests.CreateVoucherRequestDTO;
 import com.example.meraki.common.createrequests.CreateVoucherRequestVerificationDTO;
 import com.example.meraki.common.updaterequests.UpdateVoucherByBundleRequestDTO;
 import com.example.meraki.common.updaterequests.UpdateVoucherRequestDTO;
+import com.example.meraki.controllers.adminPortalUsersDTO.AdminPortalUsersDTO;
 import com.example.meraki.controllers.batchDTO.BatchDTO;
-import com.example.meraki.controllers.userDTO.UserDTO;
 import com.example.meraki.controllers.bundlesDTO.BundlesDTO;
 import com.example.meraki.controllers.orderDTO.OrderDTO;
 import com.example.meraki.controllers.vouchersDTO.*;
@@ -31,7 +31,7 @@ import static java.util.stream.Collectors.toList;
 @AllArgsConstructor
 public class VouchersController {
     @Autowired
-    private UserService userService;
+    private AdminPortalUsersService adminPortalUsersService;
 
     @Autowired
     private BundlesService bundlesService;
@@ -44,17 +44,6 @@ public class VouchersController {
 
     @Autowired
     private OrderService orderService;
-
-    @CrossOrigin
-    @PostMapping(path = "/voucher/sell-batch/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "sellByBatchId", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response<CreateSellBatchResponse> createSellVoucherBatchId(@RequestBody CreateSellBatchRequestDTO createSellBatchRequestDTO) {
-
-        CreateSellBatchResponse createSellBatchResponse = batchService.createBatch(createSellBatchRequestDTO);
-
-        return new Response<>(ResponseCode.SUCCESS, "Batch added.", createSellBatchResponse);
-
-    }
 
     @Autowired
     private VouchersRepository vouchersRepository;
@@ -108,6 +97,85 @@ public class VouchersController {
     }
 
     @CrossOrigin
+    @PostMapping(path = "/voucher/sell-batch/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "sellByBatchId", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response<CreateSellBatchResponse> createSellVoucherBatchId(@RequestBody CreateSellBatchRequestDTO createSellBatchRequestDTO) {
+
+        CreateSellBatchResponse createSellBatchResponse = batchService.createBatch(createSellBatchRequestDTO);
+
+        return new Response<>(ResponseCode.SUCCESS, "Batch added.", createSellBatchResponse);
+
+    }
+
+
+    @CrossOrigin
+    @PostMapping(path = "/voucher/sell-voucher/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "sellVoucherById", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response<SellVoucherDetailDTO> createSellVoucherByVoucherId(@RequestBody CreateSellVoucherRequestDTO createSellVoucherRequestDTO) {
+
+        SellVoucherDetailDTO sellVoucherDetailDTO = null;
+        try {
+            CreateSellVoucherResponse createSellVoucherResponse = voucherService.createSellVoucherByVoucherId(createSellVoucherRequestDTO);
+            sellVoucherDetailDTO = new SellVoucherDetailDTO(
+                    SellVouchersDTO.fromSellVoucher(voucherService.getVoucher(createSellVoucherRequestDTO.getId()))
+
+            );
+
+        } catch (IOException e) {
+
+        }
+        return new Response<>(ResponseCode.SUCCESS, "sell-voucher added.", sellVoucherDetailDTO);
+
+    }
+
+    @CrossOrigin
+    @PostMapping(path = "/voucher/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "sell-batch", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    private Response<VoucherDetailDTO> CreateVoucherBatch(@RequestBody CreateVoucherRequestDTO createVoucherRequestDTO) {
+
+
+        VoucherDetailDTO voucherDetailDTO = null;
+        try {
+            CreateVoucherResponse createVoucherResponse = voucherService.createVoucherBatch(createVoucherRequestDTO);
+            voucherDetailDTO = new VoucherDetailDTO(
+                    VouchersDTO.fromVoucher(createVoucherResponse.getVouchers()),
+                    AdminPortalUsersDTO.fromAdminPortalUsers(adminPortalUsersService.getAdminPortalUser(createVoucherRequestDTO.getUserID())),
+                    BundlesDTO.fromBundles(bundlesService.getBundle(createVoucherRequestDTO.getBundleID())),
+                    BatchDTO.fromBatch(batchService.getBatch(createVoucherRequestDTO.getBatchID())
+
+
+            ));
+
+        } catch (IOException e) {
+
+        }
+        return new Response<>(ResponseCode.SUCCESS, "Voucher was added.", voucherDetailDTO);
+    }
+
+    @CrossOrigin
+    @PostMapping(path = "/voucher/verify/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Verify voucher", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response<CreateVoucherVerificationResponse> verifyCode(
+            @ApiParam(value = "verify code")
+            @RequestBody CreateVoucherRequestVerificationDTO vouchers) {
+
+        CreateVoucherVerificationResponse payload;
+
+
+        if (vouchersRepository.existsByVoucherCode(vouchers.getVoucherCode())) {
+
+            payload = voucherService.voucherResponse(vouchers);
+
+
+            return new Response<>(ResponseCode.SUCCESS, "Voucher verified", payload);
+
+
+        } else {
+            return new Response<>(ResponseCode.NOT_FOUND, "Voucher doesn't exist", null);
+        }
+    }
+
+    @CrossOrigin
     @PutMapping("/voucher/{id}")
     @ApiParam(value = "update voucher", example = "", required = true)
     public Response<UpdateVoucherResponse> updateVoucherBatchStage(
@@ -143,91 +211,9 @@ public class VouchersController {
 
     }
 
-   /* @CrossOrigin
-    @PutMapping(path = "/vouchers/{status}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Update voucher by bundleId.", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response<List<Vouchers>> updateVoucherByBundleId( @PathVariable Boolean status)
-           {
-
-
-        List<Vouchers> vouchers = voucherService.setStatusOfBundles(status);
-
-        return new Response<>(ResponseCode.SUCCESS, "OK", vouchers);
-
-    }*/
-
-
-    @CrossOrigin
-    @PostMapping(path = "/voucher/sell-voucher/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "sellVoucherById", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response<SellVoucherDetailDTO> createSellVoucherByVoucherId(@RequestBody CreateSellVoucherRequestDTO createSellVoucherRequestDTO) {
-
-        SellVoucherDetailDTO sellVoucherDetailDTO = null;
-        try {
-            CreateSellVoucherResponse createSellVoucherResponse = voucherService.createSellVoucherByVoucherId(createSellVoucherRequestDTO);
-            sellVoucherDetailDTO = new SellVoucherDetailDTO(
-                    SellVouchersDTO.fromSellVoucher(voucherService.getVoucher(createSellVoucherRequestDTO.getId()))
-
-            );
-
-        } catch (IOException e) {
-
-        }
-        return new Response<>(ResponseCode.SUCCESS, "sell-voucher added.", sellVoucherDetailDTO);
-
-    }
-
-    @CrossOrigin
-    @PostMapping(path = "/voucher/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "sell-batch", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    private Response<VoucherDetailDTO> CreateVoucherBatch(@RequestBody CreateVoucherRequestDTO createVoucherRequestDTO) {
-
-
-        VoucherDetailDTO voucherDetailDTO = null;
-        try {
-            CreateVoucherResponse createVoucherResponse = voucherService.createVoucherBatch(createVoucherRequestDTO);
-            voucherDetailDTO = new VoucherDetailDTO(
-                    VouchersDTO.fromVoucher(createVoucherResponse.getVouchers()),
-                    UserDTO.fromUser(userService.getUser(createVoucherRequestDTO.getUserID())),
-                    BundlesDTO.fromBundles(bundlesService.getBundle(createVoucherRequestDTO.getBundleID())),
-                    BatchDTO.fromBatch(batchService.getBatch(createVoucherRequestDTO.getBatchID())),
-                    OrderDTO.fromOrder(orderService.getOrder(createVoucherRequestDTO.getOrderId()))
-
-
-            );
-
-        } catch (IOException e) {
-
-        }
-        return new Response<>(ResponseCode.SUCCESS, "Voucher was added.", voucherDetailDTO);
-    }
-
-    @CrossOrigin
-    @PostMapping(path = "/voucher/verify/", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Verify voucher", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response<CreateVoucherVerificationResponse> verifyCode(
-            @ApiParam(value = "verify code")
-            @RequestBody CreateVoucherRequestVerificationDTO vouchers) {
-
-        CreateVoucherVerificationResponse payload;
-
-
-        if (vouchersRepository.existsByVoucherCode(vouchers.getVoucherCode())) {
-
-            payload = voucherService.voucherResponse(vouchers);
-
-
-            return new Response<>(ResponseCode.SUCCESS, "Voucher verified", payload);
-
-
-        } else {
-            return new Response<>(ResponseCode.NOT_FOUND, "Voucher doesn't exist", null);
-        }
-    }
-
 
     private VoucherBatchDetailDTO getVoucherDetail(Vouchers vouchers) {
-        User user = userService.getUser(vouchers.getUser().getId());
+        AdminPortalUsers user = adminPortalUsersService.getAdminPortalUser(vouchers.getUser().getId());
         Bundles bundles = bundlesService.getBundle(vouchers.getBundle().getId());
         Batch batch = batchService.getBatch(vouchers.getBatch().getId());
         Order order = orderService.getOrder(vouchers.getOrder().getId());
@@ -235,13 +221,15 @@ public class VouchersController {
 
         return new VoucherBatchDetailDTO(
                 VouchersDTO.fromVoucher(vouchers),
-                UserDTO.fromUser(user),
+                AdminPortalUsersDTO.fromAdminPortalUsers(user),
                 BundlesDTO.fromBundles(bundles),
                 BatchDTO.fromBatch(batch),
                 OrderDTO.fromOrder(order)
         );
 
     }
+
+
 }
 
 

@@ -23,20 +23,20 @@ import java.util.Date;
 public class BundlesDTO {
 
 
-    @ApiModelProperty(value = "name of the sender.", example = "")
+    @ApiModelProperty(value = "name of the sender.", example = "Bundle")
     private String name;
 
-    @ApiModelProperty(value = "group policy id.", example = "")
+    @ApiModelProperty(value = "group policy id.", example = "1234567")
     private String groupPolicyId;
 
-    @ApiModelProperty(value = "bundle description", example = "")
+    @ApiModelProperty(value = "bundle description", example = "Bundle for telone")
     private String description;
 
 
-    @ApiModelProperty(value = "The image", example = "")
+    @ApiModelProperty(value = "The image", example = "https://www.image.com")
     private String image;
 
-    @ApiModelProperty(value = "bundle price", example = "")
+    @ApiModelProperty(value = "bundle price", example = "60.8")
     private Double price;
 
 

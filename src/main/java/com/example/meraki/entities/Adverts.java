@@ -19,7 +19,6 @@ public class Adverts extends BaseEntity{
 
     @Column(name = "image", nullable = false)
     private String image;
-    //private byte[]  image;
 
     @Column(name = "description", nullable = false)
     private String description;

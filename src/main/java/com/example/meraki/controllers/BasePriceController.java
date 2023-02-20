@@ -21,6 +21,17 @@ public class BasePriceController {
     @Autowired
     private BasePriceService basePriceService;
 
+    @CrossOrigin
+    @GetMapping(path = "/base_price/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "list all BasePrices", produces = MediaType.APPLICATION_JSON_VALUE)
+
+    public Response<List<BasePrice>> listBasePrices() {
+        List<BasePrice> basePrice;
+
+        basePrice = basePriceService.getAllBasePrice();
+
+        return new Response<>(ResponseCode.SUCCESS, "OK", basePrice);
+    }
 
     @CrossOrigin
     @PostMapping(path = "/base_price/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -32,18 +43,6 @@ public class BasePriceController {
 
         return new Response<>(ResponseCode.SUCCESS, "Ok", createBasePriceResponse);
 
-    }
-
-    @CrossOrigin
-    @GetMapping(path = "/base_price/", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "list all BasePrices", produces = MediaType.APPLICATION_JSON_VALUE)
-
-    public Response<List<BasePrice>> listBasePrices() {
-        List<BasePrice> basePrice;
-
-        basePrice = basePriceService.getAllBasePrice();
-
-        return new Response<>(ResponseCode.SUCCESS, "OK", basePrice);
     }
 
 

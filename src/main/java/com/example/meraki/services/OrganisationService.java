@@ -3,8 +3,8 @@ package com.example.meraki.services;
 import com.example.meraki.common.createrequests.CreateOrganisationRequestDTO;
 import com.example.meraki.common.updaterequests.UpdateOrganisationsRequestDTO;
 import com.example.meraki.entities.*;
+import com.example.meraki.repositories.AdminPortalUsersRepository;
 import com.example.meraki.repositories.OrganisationsRepository;
-import com.example.meraki.repositories.UserRepository;
 import com.example.meraki.services.response.CreateOrganisationResponse;
 import com.example.meraki.services.response.UpdateOrganisationsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +17,13 @@ import java.util.List;
 public class OrganisationService {
     @Autowired
     private OrganisationsRepository organisationsRepository;
-    @Autowired
-    private UserRepository userRepository;
 
-    public OrganisationService(OrganisationsRepository organisationsRepository){
+    private final AdminPortalUsersRepository adminPortalUsersRepository;
+
+    public OrganisationService(OrganisationsRepository organisationsRepository,
+                               AdminPortalUsersRepository adminPortalUsersRepository){
         this.organisationsRepository = organisationsRepository;
+        this.adminPortalUsersRepository = adminPortalUsersRepository;
     }
 
     public Organisations getOrganisation(Long id) {
@@ -33,7 +35,7 @@ public class OrganisationService {
     }
 
     public CreateOrganisationResponse createOrganisation(CreateOrganisationRequestDTO createOrganisationRequestDTO) throws IOException {
-        User user1 = userRepository.getReferenceById(createOrganisationRequestDTO.getUserID());
+        AdminPortalUsers user1 = adminPortalUsersRepository.getReferenceById(createOrganisationRequestDTO.getUserID());
         Organisations organisations = new Organisations(
                 user1,
                 createOrganisationRequestDTO.getOrganisation().getName(),

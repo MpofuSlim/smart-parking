@@ -22,9 +22,6 @@ public class VouchersService {
     @Autowired
     private VouchersRepository vouchersRepository;
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private BundlesRepository bundlesRepository;
 
     @Autowired
@@ -35,9 +32,12 @@ public class VouchersService {
 
     @Autowired
     private OrderRepository orderRepository;
+    private final AdminPortalUsersRepository adminPortalUsersRepository;
 
-    public VouchersService(VouchersRepository vouchersRepository) {
+    public VouchersService(VouchersRepository vouchersRepository,
+                           AdminPortalUsersRepository adminPortalUsersRepository) {
         this.vouchersRepository = vouchersRepository;
+        this.adminPortalUsersRepository = adminPortalUsersRepository;
     }
 
     public List<Vouchers> getAllVouchers() {
@@ -69,7 +69,7 @@ public class VouchersService {
 
 
     public CreateVoucherResponse createVoucherBatch(CreateVoucherRequestDTO createVoucherRequestDTO) throws IOException {
-        User user1 = userRepository.getReferenceById(createVoucherRequestDTO.getUserID());
+        AdminPortalUsers user1 = adminPortalUsersRepository.getReferenceById(createVoucherRequestDTO.getUserID());
         Bundles bundle1 = bundlesRepository.getReferenceById(createVoucherRequestDTO.getBundleID());
         Batch batch1 = batchRepository.getReferenceById(createVoucherRequestDTO.getBatchID());
         Order order1 = orderRepository.getReferenceById(createVoucherRequestDTO.getOrderId());
@@ -77,7 +77,7 @@ public class VouchersService {
                 user1,
                 bundle1,
                 batch1,
-                order1,
+                null,
 
                 createVoucherRequestDTO.getVouchers().getVoucherCode(),
                 createVoucherRequestDTO.getVouchers().getEncryptedVoucherCode(),
@@ -153,6 +153,10 @@ public class VouchersService {
             return updateVoucherByBundleResponse;
 
 
+    }
+
+    public List<Vouchers> getByActiveBatch (Boolean active){
+        return vouchersRepository.findByBatchActive(active);
     }
 
 

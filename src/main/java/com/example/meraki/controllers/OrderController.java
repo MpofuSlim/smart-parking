@@ -38,28 +38,6 @@ public class OrderController {
     private AdminPortalUsersService adminPortalUsersService;
 
     @CrossOrigin
-    @PostMapping(path = "/order/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "all orders", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    private Response<OrderDetailDTO> createOrder(@RequestBody CreateOrderRequestDTO createOrderRequestDTO){
-
-        OrderDetailDTO orderDetailDTO=null;
-        try{
-            CreateOrderResponse createOrderResponse = orderService.createOrder(createOrderRequestDTO);
-            orderDetailDTO=new OrderDetailDTO(
-                    OrderDTO.fromOrder(createOrderResponse.getOrder()),
-                    BusinessPartnerDTO.fromBusinessPartner(businessPartnerService.getBusinessPartner(createOrderRequestDTO.getBusinessPartnerId())),
-                    AdminPortalUsersDTO.fromAdminPortalUsers(adminPortalUsersService.getAdminPortalUser(createOrderRequestDTO.getAdminPortalUserId()))
-
-
-            );
-
-        }catch (IOException e){
-
-        }
-        return new Response<>(ResponseCode.SUCCESS, "order was added.", orderDetailDTO);
-    }
-
-    @CrossOrigin
     @GetMapping(path = "/order/{businessPartnerId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Retrieve an order using a business partner Id.", produces = MediaType.APPLICATION_JSON_VALUE)
 
@@ -76,6 +54,43 @@ public class OrderController {
         }
     }
 
+    @CrossOrigin
+    @GetMapping(path = "/order/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "list all orders", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response<List<Order>> listAllOrders(
+    ) {
+        List<Order> orders = orderService.getAllOrders();
+
+        if (orders != null) {
+
+            return new Response<>(ResponseCode.SUCCESS, "OK", orders);
+        } else {
+            return new Response<>(ResponseCode.NOT_FOUND, "No orders found", null);
+        }
+    }
+
+    @CrossOrigin
+    @PostMapping(path = "/order/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "all orders", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    private Response<OrderDetailDTO> createOrder(@RequestBody CreateOrderRequestDTO createOrderRequestDTO) {
+
+        OrderDetailDTO orderDetailDTO = null;
+        try {
+            CreateOrderResponse createOrderResponse = orderService.createOrder(createOrderRequestDTO);
+            orderDetailDTO = new OrderDetailDTO(
+                    OrderDTO.fromOrder(createOrderResponse.getOrder()),
+                    BusinessPartnerDTO.fromBusinessPartner(businessPartnerService.getBusinessPartner(createOrderRequestDTO.getBusinessPartnerId())),
+                    AdminPortalUsersDTO.fromAdminPortalUsers(adminPortalUsersService.getAdminPortalUser(createOrderRequestDTO.getAdminPortalUserId()))
+
+
+            );
+
+        } catch (IOException e) {
+
+        }
+        return new Response<>(ResponseCode.SUCCESS, "order was added.", orderDetailDTO);
+    }
+
     private BusinessPartnerDetailDTO getOrderDetail(Order order) {
         BusinessPartner businessPartner = businessPartnerService.getBusinessPartner(order.getBusinessPartner().getId());
         Order order1 = orderService.getOrder(order.getId());
@@ -85,12 +100,9 @@ public class OrderController {
                 OrderDTO.fromOrder(order1)
 
 
-
-
         );
 
     }
-
 
 
 }

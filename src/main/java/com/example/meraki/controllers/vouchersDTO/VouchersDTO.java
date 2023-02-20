@@ -17,31 +17,31 @@ public class VouchersDTO {
 
 
 
-    @ApiModelProperty(value = "id of vouchers ", required = true, example = "")
+    @ApiModelProperty(value = "id of vouchers ", required = true, example = "1")
     private Long id;
 
-    @ApiModelProperty(value = "voucherCode", required = true, example = "")
+    @ApiModelProperty(value = "voucherCode", required = true, example = "12345678")
     private String voucherCode;
 
-    @ApiModelProperty(value = "voucher encryptedVoucherCode", required = true, example = "")
+    @ApiModelProperty(value = "voucher encryptedVoucherCode", required = true, example = "adgvafgvhfvghf")
     private String encryptedVoucherCode;
 
-    @ApiModelProperty(value = "voucher serialNumber", required = true, example = "")
+    @ApiModelProperty(value = "voucher serialNumber", required = true, example = "12345")
     private Integer serialNumber;
 
-    @ApiModelProperty(value = "voucher ApprovedBy", required = true, example = "")
+    @ApiModelProperty(value = "voucher ApprovedBy", required = true, example = "1")
     private Integer approvedBy;
 
-    @ApiModelProperty(value = "approved voucher", required = true, example = "")
+    @ApiModelProperty(value = "approved voucher", required = true, example = "1")
     private Integer approved;
 
-    @ApiModelProperty(value = "used voucher", required = true, example = "")
+    @ApiModelProperty(value = "used voucher", required = true, example = "false")
     private Boolean used;
 
-    @ApiModelProperty(value = "voucher state", required = true, example = "")
+    @ApiModelProperty(value = "voucher state", required = true, example = "false")
     private Boolean isBlocked;
 
-    @ApiModelProperty(value = "voucher sold status", required = true, example = "")
+    @ApiModelProperty(value = "voucher sold status", required = true, example = "false")
     private Boolean sold;
 
 

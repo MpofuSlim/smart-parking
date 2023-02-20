@@ -15,7 +15,7 @@ import java.util.Date;
 @ApiModel(description = "AdminPortalUsersRoles")
 public class AdminPortalUsersRolesDTO {
 
-    @ApiModelProperty(value ="voucher batchID", required = true, example = "")
+    @ApiModelProperty(value ="voucher batchID", required = true, example = "Super")
     private String name;
 
     @ApiModelProperty(value ="voucher batchName", required = true, example = "")

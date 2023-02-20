@@ -15,7 +15,7 @@ public class CreateVoucherResponse {
 
     private Vouchers vouchers;
 
-    private User user;
+    private AdminPortalUsers user;
 
     private Bundles bundles;
 

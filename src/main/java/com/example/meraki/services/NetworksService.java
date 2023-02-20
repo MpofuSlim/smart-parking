@@ -22,14 +22,14 @@ public class NetworksService {
     private NetworksRepository networksRepository;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private OrganisationsRepository organisationsRepository;
+    private final AdminPortalUsersRepository adminPortalUsersRepository;
 
 
-    public NetworksService(NetworksRepository networksRepository){
+    public NetworksService(NetworksRepository networksRepository,
+                           AdminPortalUsersRepository adminPortalUsersRepository){
         this.networksRepository = networksRepository;
+        this.adminPortalUsersRepository = adminPortalUsersRepository;
     }
 
     public List<Networks> getAllNetworks() {
@@ -38,7 +38,7 @@ public class NetworksService {
 
     @Transactional
     public CreateNetworksResponse createNetworks(CreateNetworksRequestDTO createNetworksRequestDTO) throws IOException {
-        User user1 = userRepository.getReferenceById(createNetworksRequestDTO.getUserID());
+        AdminPortalUsers user1 = adminPortalUsersRepository.getReferenceById(createNetworksRequestDTO.getUserID());
         Organisations organisations1 = organisationsRepository.getReferenceById(createNetworksRequestDTO.getOrganisationsID());
         Networks networks = new Networks(
                 user1,

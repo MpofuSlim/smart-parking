@@ -1,8 +1,8 @@
 
 package com.example.meraki.services.response;
 
+import com.example.meraki.entities.AdminPortalUsers;
 import com.example.meraki.entities.BundleCategory;
-import com.example.meraki.entities.User;
 import lombok.*;
 
 @Getter
@@ -12,7 +12,7 @@ import lombok.*;
 @ToString
 public class CreateBundleCategoryResponse {
     private BundleCategory bundleCategory;
-    private User user;
+    private AdminPortalUsers user;
 }
 
 

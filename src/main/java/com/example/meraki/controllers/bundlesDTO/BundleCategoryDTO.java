@@ -15,13 +15,13 @@ import java.util.Date;
 public class BundleCategoryDTO {
 
 
-    @ApiModelProperty (value = "Name of category",required = true, example = "")
+    @ApiModelProperty (value = "Name of category",required = true, example = "Rush Hour")
     private String name;
 
-    @ApiModelProperty(value = "A short Description the of category",required = true, example = "")
+    @ApiModelProperty(value = "A short Description the of category",required = true, example = "Bundle for one hour")
     private String description;
 
-    @ApiModelProperty(value = "A short Description the of category",required = true, example = "")
+    @ApiModelProperty(value = "A short Description the of category",required = true, example = "3600")
     private Integer duration;
 
     @ApiModelProperty(value = "A short Description the of category",required = true, example = "")

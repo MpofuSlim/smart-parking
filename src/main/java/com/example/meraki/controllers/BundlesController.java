@@ -13,7 +13,6 @@ import com.example.meraki.entities.Currency;
 import com.example.meraki.services.BundleCategoryService;
 import com.example.meraki.services.BundlesService;
 import com.example.meraki.services.CurrencyService;
-import com.example.meraki.services.UserService;
 import com.example.meraki.services.response.CreateBundlesResponse;
 import com.example.meraki.services.response.UpdateBundleResponse;
 import io.swagger.annotations.ApiOperation;
@@ -41,37 +40,6 @@ public class BundlesController {
     @Autowired
     private BundleCategoryService bundleCategoryService;
 
-    @Autowired
-    private UserService userService;
-
-    private BundlesDetailDTO getBundleDetail(Bundles bundles) {
-        Currency currency = currencyService.getCurrency((bundles.getCurrency().getId()));
-        BundleCategory category = bundleCategoryService.getBundlesCategory(bundles.getBundleCategory().getId());
-
-        return new BundlesDetailDTO(BundlesDTO.fromBundles(bundles), BundleCategoryDTO.fromBundleCategory(category), CurrencyDTO.fromCurrency(currency));
-
-
-    }
-
-    @CrossOrigin
-    @PostMapping(path = "/bundle/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Create Bundle", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    private Response<BundlesDetailDTO> createBundles(@RequestBody CreateBundlesRequestDTO createBundlesRequestDTO) {
-
-        BundlesDetailDTO bundlesDetailDTO = null;
-        try {
-            CreateBundlesResponse createBundlesResponse = bundlesService.createBundles(createBundlesRequestDTO);
-            bundlesDetailDTO = new BundlesDetailDTO(
-                    BundlesDTO.fromBundles(createBundlesResponse.getBundles()),
-                    BundleCategoryDTO.fromBundleCategory(bundleCategoryService.getBundlesCategory(createBundlesRequestDTO.getBundleCategoryID())),
-                    CurrencyDTO.fromCurrency(currencyService.getCurrency(createBundlesRequestDTO.getCurrencyID()))
-
-            );
-        } catch (IOException e) {
-
-        }
-        return new Response<>(ResponseCode.SUCCESS, "Bundle was added.", bundlesDetailDTO);
-    }
 
     @CrossOrigin
     @GetMapping(path = "/bundle/", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -131,12 +99,42 @@ public class BundlesController {
     }
 
     @CrossOrigin
+    @PostMapping(path = "/bundle/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Create Bundle", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    private Response<BundlesDetailDTO> createBundles(@RequestBody CreateBundlesRequestDTO createBundlesRequestDTO) {
+
+        BundlesDetailDTO bundlesDetailDTO = null;
+        try {
+            CreateBundlesResponse createBundlesResponse = bundlesService.createBundles(createBundlesRequestDTO);
+            bundlesDetailDTO = new BundlesDetailDTO(
+                    BundlesDTO.fromBundles(createBundlesResponse.getBundles()),
+                    BundleCategoryDTO.fromBundleCategory(bundleCategoryService.getBundlesCategory(createBundlesRequestDTO.getBundleCategoryID())),
+                    CurrencyDTO.fromCurrency(currencyService.getCurrency(createBundlesRequestDTO.getCurrencyID()))
+
+            );
+        } catch (IOException e) {
+
+        }
+        return new Response<>(ResponseCode.SUCCESS, "Bundle was added.", bundlesDetailDTO);
+    }
+
+
+    @CrossOrigin
     @PutMapping("/bundle/{id}")
     @ApiParam(value = "update  bundle", example = "", required = true)
     public Response<UpdateBundleResponse> updateBundle(
             @RequestBody UpdateBundleRequestDTO updateBundleRequestDTO) {
         UpdateBundleResponse response = bundlesService.updateBundle(updateBundleRequestDTO);
         return new Response<>(ResponseCode.SUCCESS, "Ok", response);
+    }
+
+    private BundlesDetailDTO getBundleDetail(Bundles bundles) {
+        Currency currency = currencyService.getCurrency((bundles.getCurrency().getId()));
+        BundleCategory category = bundleCategoryService.getBundlesCategory(bundles.getBundleCategory().getId());
+
+        return new BundlesDetailDTO(BundlesDTO.fromBundles(bundles), BundleCategoryDTO.fromBundleCategory(category), CurrencyDTO.fromCurrency(currency));
+
+
     }
 
 

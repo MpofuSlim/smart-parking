@@ -19,8 +19,8 @@ public class Bundles extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "userID", nullable = false)
-    private User user;
+    @JoinColumn(name = "user_id", nullable = false)
+    private AdminPortalUsers user;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "currency_id", nullable = false)

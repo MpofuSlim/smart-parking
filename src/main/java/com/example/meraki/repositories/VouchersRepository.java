@@ -1,6 +1,7 @@
 package com.example.meraki.repositories;
 
 import com.example.meraki.entities.*;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -8,13 +9,12 @@ import java.util.List;
 @Repository
 public interface VouchersRepository extends BaseRepository<Vouchers> {
 
+    //@Query("From Vouchers where batch.active = :active")
+    List<Vouchers> findByBatchActive(Boolean active);
+
     Vouchers findByVoucherCode(String code);
 
     List<Vouchers> findByOrder(Order order);
-
-    Vouchers findByUsed(Boolean used);
-
-    List<Vouchers> findBySold(Boolean sold);
 
     List<Vouchers> findByBatch(Batch batch);
 
@@ -23,6 +23,8 @@ public interface VouchersRepository extends BaseRepository<Vouchers> {
     List<Vouchers> findByBundleAndSold(Bundles bundles, Boolean sold);
 
     Boolean existsByVoucherCode(String voucherCode);
+
+
 
 
 }

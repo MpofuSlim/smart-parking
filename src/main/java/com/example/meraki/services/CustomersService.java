@@ -5,7 +5,6 @@ import com.example.meraki.common.misc.CustomerLoginRequestDTO;
 import com.example.meraki.common.updaterequests.UpdateCustomersRequestDTO;
 import com.example.meraki.entities.Customers;
 import com.example.meraki.repositories.CustomersRepository;
-import com.example.meraki.repositories.UserRepository;
 import com.example.meraki.services.response.CreateCustomerResponse;
 import com.example.meraki.services.response.CustomerLoginResponse;
 import com.example.meraki.services.response.UpdateCustomersResponse;
@@ -20,8 +19,6 @@ public class CustomersService {
 
     @Autowired
     private CustomersRepository customersRepository;
-    @Autowired
-    private UserRepository userRepository;
 
     public CustomersService(CustomersRepository customersRepository) {
         this.customersRepository = customersRepository;

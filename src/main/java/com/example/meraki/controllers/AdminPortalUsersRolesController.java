@@ -6,7 +6,6 @@ import com.example.meraki.controllers.adminPortalUsersRolesDTO.AdminPortalUsersR
 import com.example.meraki.controllers.adminPortalUsersRolesDTO.AdminPortalUsersRolesDetailDTO;
 import com.example.meraki.entities.AdminPortalUsersRoles;
 import com.example.meraki.services.AdminPortalUsersRolesService;
-import com.example.meraki.services.UserService;
 import com.example.meraki.services.response.CreateAdminPortalUsersRolesResponse;
 import com.example.meraki.services.response.UpdateAdminPortalUsersRolesResponse;
 import io.swagger.annotations.ApiOperation;
@@ -25,9 +24,17 @@ public class AdminPortalUsersRolesController {
     @Autowired
     private AdminPortalUsersRolesService adminPortalUsersRolesService;
 
+    @CrossOrigin
+    @GetMapping(path = "/admin-portal-user-role/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "list all admin-portal-users-roles?=true/false", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response<List<AdminPortalUsersRoles>> listAdminPortalUsers(
+    ) {
+        List<AdminPortalUsersRoles> adminPortalUsersRoles;
 
-    @Autowired
-    private UserService userService;
+        adminPortalUsersRoles = adminPortalUsersRolesService.getAllAdminPortalUsersRoles();
+
+        return new Response<>(ResponseCode.SUCCESS, "OK", adminPortalUsersRoles);
+    }
 
     @CrossOrigin
     @PostMapping(path = "/admin-portal-user-role/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -47,17 +54,7 @@ public class AdminPortalUsersRolesController {
         }
         return new Response<>(ResponseCode.SUCCESS, "admin-user-portal-role was added.", adminPortalUsersRolesDetailDTO);
     }
-    @CrossOrigin
-    @GetMapping(path = "/admin-portal-user-role/", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "list all admin-portal-users-roles?=true/false", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response<List<AdminPortalUsersRoles>> listAdminPortalUsers(
-    ) {
-        List<AdminPortalUsersRoles> adminPortalUsersRoles;
 
-        adminPortalUsersRoles = adminPortalUsersRolesService.getAllAdminPortalUsersRoles();
-
-        return new Response<>(ResponseCode.SUCCESS, "OK", adminPortalUsersRoles);
-    }
 
     @CrossOrigin
     @PutMapping("/admin-portal-user-role/{id}")

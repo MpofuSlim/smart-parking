@@ -1,6 +1,6 @@
 package com.example.meraki.controllers.exchangeRateExpiredDTO;
 
-import com.example.meraki.controllers.userDTO.UserDTO;
+import com.example.meraki.controllers.adminPortalUsersDTO.AdminPortalUsersDTO;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
 
@@ -14,5 +14,5 @@ public class ExchangeRateExpiredDetailDTO {
 
     private ExchangeRateExpiredDTO exchangeRateExpired;
 
-    private UserDTO user;
+    private AdminPortalUsersDTO user;
 }

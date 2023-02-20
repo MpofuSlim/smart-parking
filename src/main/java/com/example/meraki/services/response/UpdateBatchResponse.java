@@ -15,4 +15,10 @@ public class UpdateBatchResponse {
 
     @ApiModelProperty(value = "active state", example = "")
     private Boolean active;
+
+    @ApiModelProperty(value = "suspended ", example = "")
+    private Boolean suspended;
+
+
+
 }

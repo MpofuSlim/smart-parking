@@ -19,7 +19,7 @@ public class ExchangeRate extends BaseEntity{
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private AdminPortalUsers user;
 
     @Column(name = "name", nullable = false)
     private String name;

@@ -2,10 +2,10 @@ package com.example.meraki.services;
 
 import com.example.meraki.common.createrequests.CreateExchangeRateRequestDTO;
 import com.example.meraki.common.updaterequests.UpdateExchangeRateRequestDTO;
+import com.example.meraki.entities.AdminPortalUsers;
 import com.example.meraki.entities.ExchangeRate;
-import com.example.meraki.entities.User;
+import com.example.meraki.repositories.AdminPortalUsersRepository;
 import com.example.meraki.repositories.ExchangeRateRepository;
-import com.example.meraki.repositories.UserRepository;
 import com.example.meraki.services.response.CreateExchangeRateResponse;
 import com.example.meraki.services.response.UpdateExchangeRateResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +18,13 @@ import java.util.List;
 public class ExchangeRateService {
     @Autowired
     private ExchangeRateRepository exchangeRateRepository;
-    @Autowired
-    private UserRepository userRepository;
 
-    public ExchangeRateService(ExchangeRateRepository exchangeRateRepository) {
+    private final AdminPortalUsersRepository adminPortalUsersRepository;
+
+    public ExchangeRateService(ExchangeRateRepository exchangeRateRepository,
+                               AdminPortalUsersRepository adminPortalUsersRepository) {
         this.exchangeRateRepository = exchangeRateRepository;
+        this.adminPortalUsersRepository = adminPortalUsersRepository;
     }
 
     public ExchangeRate getExchangeRate(Long id) {
@@ -33,7 +35,7 @@ public class ExchangeRateService {
         return exchangeRateRepository.findAll();
     }
     public CreateExchangeRateResponse createExchangeRate(CreateExchangeRateRequestDTO createExchangeRateRequestDTO) throws IOException {
-        User user1 = userRepository.getReferenceById(createExchangeRateRequestDTO.getUserID());
+        AdminPortalUsers user1 = adminPortalUsersRepository.getReferenceById(createExchangeRateRequestDTO.getUserID());
         ExchangeRate exchangeRate = new ExchangeRate(
                 user1,
                 createExchangeRateRequestDTO.getExchangeRate().getName(),

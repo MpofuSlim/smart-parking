@@ -1,9 +1,7 @@
 package com.example.meraki.services.response;
 
-import com.example.meraki.controllers.exchangeRateDTO.ExchangeRateDTO;
-import com.example.meraki.entities.Customers;
+import com.example.meraki.entities.AdminPortalUsers;
 import com.example.meraki.entities.ExchangeRate;
-import com.example.meraki.entities.User;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
 
@@ -17,5 +15,5 @@ public class CreateExchangeRateResponse {
 
     private ExchangeRate exchangeRate;
 
-    private User user;
+    private AdminPortalUsers user;
 }

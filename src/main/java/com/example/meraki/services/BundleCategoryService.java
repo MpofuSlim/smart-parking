@@ -3,10 +3,10 @@ package com.example.meraki.services;
 
 import com.example.meraki.common.createrequests.CreateBundleCategoryRequestDTO;
 import com.example.meraki.common.updaterequests.UpdateBundleCategoryRequestDTO;
+import com.example.meraki.entities.AdminPortalUsers;
 import com.example.meraki.entities.BundleCategory;
-import com.example.meraki.entities.User;
+import com.example.meraki.repositories.AdminPortalUsersRepository;
 import com.example.meraki.repositories.BundlesCategoryRepository;
-import com.example.meraki.repositories.UserRepository;
 import com.example.meraki.services.response.CreateBundleCategoryResponse;
 import com.example.meraki.services.response.UpdateBundleCategoryResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,27 +23,30 @@ public class BundleCategoryService {
     @Autowired
     private BundlesCategoryRepository bundlesCategoryRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final AdminPortalUsersRepository adminPortalUsersRepository;
 
-    public BundleCategoryService(BundlesCategoryRepository bundlesCategoryRepository) {
+    public BundleCategoryService(BundlesCategoryRepository bundlesCategoryRepository,
+                                 AdminPortalUsersRepository adminPortalUsersRepository) {
         this.bundlesCategoryRepository = bundlesCategoryRepository;
+        this.adminPortalUsersRepository = adminPortalUsersRepository;
     }
 
     public BundleCategory getBundlesCategory(Long id) {
         return bundlesCategoryRepository.getReferenceById(id);
     }
 
-    public List<BundleCategory> getAllBundleCategory(){
+    public List<BundleCategory> getAllBundleCategory() {
         return bundlesCategoryRepository.findAll();
     }
 
-    public List<BundleCategory> getBundleCategoriesByActive(Boolean active){return bundlesCategoryRepository.findByActive(active);}
+    public List<BundleCategory> getBundleCategoriesByActive(Boolean active) {
+        return bundlesCategoryRepository.findByActive(active);
+    }
 
     @Transactional
     public CreateBundleCategoryResponse createBundleCategory(CreateBundleCategoryRequestDTO categoryRequestDTO) throws IOException {
-        User user1 = userRepository.getReferenceById(categoryRequestDTO.getUserID());
-        BundleCategory bundleCategory=new BundleCategory(
+        AdminPortalUsers user1 = adminPortalUsersRepository.getReferenceById(categoryRequestDTO.getUserID());
+        BundleCategory bundleCategory = new BundleCategory(
                 user1,
                 categoryRequestDTO.getBundleCategory().getName(),
                 categoryRequestDTO.getBundleCategory().getDescription(),
@@ -78,7 +81,7 @@ public class BundleCategoryService {
                 bundleCategory.getActive()
         );
 
-        return  updateBundleCategoryResponse;
+        return updateBundleCategoryResponse;
     }
 
 }

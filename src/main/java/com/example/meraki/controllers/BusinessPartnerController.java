@@ -20,18 +20,6 @@ public class BusinessPartnerController {
     @Autowired
     private BusinessPartnerService businessPartnerService;
 
-
-    @CrossOrigin
-    @PostMapping(path = "/business_partner/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Create business partner ", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response<CreateBusinessPartnerResponse> createBusinessPartner(
-            @ApiParam(required = true) @RequestBody CreateBusinessPartnerRequestDTO createBusinessPartnerRequestDTO) {
-
-        CreateBusinessPartnerResponse createBusinessPartnerResponse=businessPartnerService.CreateBusinessPartner(createBusinessPartnerRequestDTO);
-
-        return new Response<>(ResponseCode.SUCCESS, "Ok", createBusinessPartnerResponse);
-
-    }
     @CrossOrigin
     @GetMapping(path = "/businessPartners/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "list all business_partners?=true/false", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -57,6 +45,17 @@ public class BusinessPartnerController {
 
     }
 
+    @CrossOrigin
+    @PostMapping(path = "/business_partner/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Create business partner ", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response<CreateBusinessPartnerResponse> createBusinessPartner(
+            @ApiParam(required = true) @RequestBody CreateBusinessPartnerRequestDTO createBusinessPartnerRequestDTO) {
+
+        CreateBusinessPartnerResponse createBusinessPartnerResponse=businessPartnerService.CreateBusinessPartner(createBusinessPartnerRequestDTO);
+
+        return new Response<>(ResponseCode.SUCCESS, "Ok", createBusinessPartnerResponse);
+
+    }
 
     @CrossOrigin
     @PutMapping("/businessPartner/{id}")

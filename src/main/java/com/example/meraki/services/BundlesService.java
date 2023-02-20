@@ -27,16 +27,16 @@ public class BundlesService {
     private BundlesRepository bundlesRepository;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private CurrencyRepository currencyRepository;
 
     @Autowired
     private BundlesCategoryRepository bundlesCategoryRepository;
+    private final AdminPortalUsersRepository adminPortalUsersRepository;
 
-    public BundlesService(BundlesRepository bundlesRepository) {
+    public BundlesService(BundlesRepository bundlesRepository,
+                          AdminPortalUsersRepository adminPortalUsersRepository) {
         this.bundlesRepository = bundlesRepository;
+        this.adminPortalUsersRepository = adminPortalUsersRepository;
     }
 
     public List<Bundles> getAllBundles() {
@@ -81,7 +81,7 @@ public class BundlesService {
 
     @Transactional
     public CreateBundlesResponse createBundles(CreateBundlesRequestDTO createBundlesRequestDTO) throws IOException {
-        User user1 = userRepository.getReferenceById(createBundlesRequestDTO.getUserID());
+        AdminPortalUsers user1 = adminPortalUsersRepository.getReferenceById(createBundlesRequestDTO.getUserID());
         Currency currency1 = currencyRepository.getReferenceById(createBundlesRequestDTO.getCurrencyID());
         BundleCategory bundlesCategory1 = bundlesCategoryRepository.getReferenceById(createBundlesRequestDTO.getBundleCategoryID());
         Bundles bundles = new Bundles(

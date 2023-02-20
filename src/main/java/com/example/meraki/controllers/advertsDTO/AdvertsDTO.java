@@ -14,15 +14,15 @@ import lombok.*;
 public class AdvertsDTO {
 
 
-    @ApiModelProperty(value = "", example = "")
+    @ApiModelProperty(value = "", example = "Telone Discount")
     private String title;
 
-    @ApiModelProperty(value = "", example = "")
+    @ApiModelProperty(value = "", example = "Discount for 10 days")
     private String description;
 
     @ApiModelProperty(value = "", example = "")
     private String image;
-    //private byte[] image;
+
 
 
     public static AdvertsDTO fromAdverts(Adverts adverts) {

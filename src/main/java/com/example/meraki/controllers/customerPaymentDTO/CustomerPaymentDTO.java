@@ -15,19 +15,19 @@ import java.math.BigDecimal;
 @ApiModel(description = "payments")
 public class CustomerPaymentDTO {
 
-    @ApiModelProperty(value = "amount", required = true, example = "")
+    @ApiModelProperty(value = "amount", required = true, example = "1")
     private BigDecimal amount;
 
-    @ApiModelProperty(value = "phone_number", required = true, example = "")
+    @ApiModelProperty(value = "phone_number", required = true, example = "0782606983")
     private String phoneNumber;
 
     @ApiModelProperty(value = "product_id", required = true, example = "1")
     private Long productId;
 
-    @ApiModelProperty(value = "email", required = true, example = "")
+    @ApiModelProperty(value = "email", required = true, example = "mpofuslim@gmail.com")
     private String email;
 
-    @ApiModelProperty(value = "product_title", required = true, example = "")
+    @ApiModelProperty(value = "product_title", required = true, example = "Bundle")
     private String productTitle;
 
     public static CustomerPaymentDTO fromCustomerPayment(CustomerPayment customerPayment) {

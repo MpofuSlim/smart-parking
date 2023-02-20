@@ -15,10 +15,6 @@ public class AdminPortalUsersRoles extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
     @Column(name = "name", nullable = false)
     private String name;
 

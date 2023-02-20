@@ -3,11 +3,9 @@ package com.example.meraki.repositories;
 
 import com.example.meraki.entities.BundleCategory;
 import com.example.meraki.entities.Bundles;
-import com.example.meraki.entities.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface BundlesRepository extends BaseRepository<Bundles>{

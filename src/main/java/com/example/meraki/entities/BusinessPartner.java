@@ -17,6 +17,9 @@ public class BusinessPartner extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "business_partner_role_id", nullable = false)
+    private BusinessPartnerRoles businessPartnerRoles;
     @Column(name = "name", nullable = false)
     private String name;
 

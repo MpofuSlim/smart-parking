@@ -3,10 +3,10 @@ package com.example.meraki.services;
 
 import com.example.meraki.common.createrequests.CreateCurrencyRequestDTO;
 import com.example.meraki.common.updaterequests.UpdateCurrencyRequestDTO;
+import com.example.meraki.entities.AdminPortalUsers;
 import com.example.meraki.entities.Currency;
-import com.example.meraki.entities.User;
+import com.example.meraki.repositories.AdminPortalUsersRepository;
 import com.example.meraki.repositories.CurrencyRepository;
-import com.example.meraki.repositories.UserRepository;
 import com.example.meraki.services.response.CreateCurrencyResponse;
 import com.example.meraki.services.response.UpdateCurrencyResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +23,12 @@ public class CurrencyService {
     @Autowired
     public CurrencyRepository currencyRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final AdminPortalUsersRepository adminPortalUsersRepository;
 
-    public CurrencyService(CurrencyRepository currencyRepository) {
+    public CurrencyService(CurrencyRepository currencyRepository,
+                           AdminPortalUsersRepository adminPortalUsersRepository) {
         this.currencyRepository = currencyRepository;
+        this.adminPortalUsersRepository = adminPortalUsersRepository;
     }
 
     public Currency getCurrency(Long id) {
@@ -43,7 +44,7 @@ public class CurrencyService {
 
     @Transactional
     public CreateCurrencyResponse createCurrency(CreateCurrencyRequestDTO createCurrencyRequestDTO) throws IOException {
-        User user1 = userRepository.getReferenceById(createCurrencyRequestDTO.getUserID());
+        AdminPortalUsers user1 = adminPortalUsersRepository.getReferenceById(createCurrencyRequestDTO.getUserID());
         Currency currency = new Currency(
                 user1,
                 createCurrencyRequestDTO.getCurrency().getName(),

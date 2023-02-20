@@ -29,4 +29,6 @@ public class Sales extends BaseEntity{
 
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
+
+
 }

@@ -23,7 +23,7 @@ public class OrderDTO {
     @ApiModelProperty(value = "amount", required = true, example = "1.23")
     private Double amount;
 
-    @ApiModelProperty(value = "paying_account_number", required = true, example = "")
+    @ApiModelProperty(value = "paying_account_number", required = true, example = "0782606983")
     private String payingAccountNumber;
 
     @ApiModelProperty(value = "quantity", required = true, example = "6")

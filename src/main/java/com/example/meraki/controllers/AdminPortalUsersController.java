@@ -28,9 +28,18 @@ public class AdminPortalUsersController {
     @Autowired
     private RoleService roleService;
 
-    @Autowired
-    private UserService userService;
 
+    @CrossOrigin
+    @GetMapping(path = "/admin-portal-user/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "list all admin-portal-users?=true/false", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response<List<AdminPortalUsers>> listAdminPortalUsers(
+    ) {
+        List<AdminPortalUsers> adminPortalUsers;
+
+        adminPortalUsers = adminPortalUsersService.getAllAdminPortalUsers();
+
+        return new Response<>(ResponseCode.SUCCESS, "OK", adminPortalUsers);
+    }
 
     @CrossOrigin
     @PostMapping(path = "/admin-portal-user/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -73,17 +82,7 @@ public class AdminPortalUsersController {
         }
     }
 
-    @CrossOrigin
-    @GetMapping(path = "/admin-portal-user/", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "list all admin-portal-users?=true/false", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response<List<AdminPortalUsers>> listAdminPortalUsers(
-    ) {
-        List<AdminPortalUsers> adminPortalUsers;
 
-        adminPortalUsers = adminPortalUsersService.getAllAdminPortalUsers();
-
-        return new Response<>(ResponseCode.SUCCESS, "OK", adminPortalUsers);
-    }
 
     @CrossOrigin
     @PutMapping("/adminPortalUsers/{id}")

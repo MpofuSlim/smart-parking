@@ -1,6 +1,6 @@
 package com.example.meraki.controllers.currencyDTO;
 
-import com.example.meraki.controllers.userDTO.UserDTO;
+import com.example.meraki.controllers.adminPortalUsersDTO.AdminPortalUsersDTO;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
 
@@ -14,5 +14,5 @@ public class CurrencyDetailDTO {
 
     private CurrencyDTO currency;
 
-    private UserDTO user;
+    private AdminPortalUsersDTO user;
 }

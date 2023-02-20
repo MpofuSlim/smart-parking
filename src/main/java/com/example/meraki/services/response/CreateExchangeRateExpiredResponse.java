@@ -1,8 +1,7 @@
 package com.example.meraki.services.response;
 
-import com.example.meraki.entities.ExchangeRate;
+import com.example.meraki.entities.AdminPortalUsers;
 import com.example.meraki.entities.ExchangeRateExpired;
-import com.example.meraki.entities.User;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
 
@@ -16,5 +15,5 @@ public class CreateExchangeRateExpiredResponse {
 
     private ExchangeRateExpired exchangeRateExpired;
 
-    private User user;
+    private AdminPortalUsers user;
 }

@@ -26,25 +26,6 @@ public class SplashPageLoginsController {
     @Autowired
     private CustomersService customersService;
 
-    @CrossOrigin
-    @PostMapping(path = "/splash_page_logins/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "create splash logins", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    private Response<SplashPageLoginsDetailDTO> CreateSplashPageLogins(@RequestBody CreateSplashPageLoginsRequestDTO createSplashPageLoginsRequestDTO) {
-
-        SplashPageLoginsDetailDTO splashPageLoginsDetailDTO = null;
-        try {
-            CreateSplashPageLoginsResponse createSplashPageLoginsResponse = splashPageLoginsService.CreateSplashPageLogins(createSplashPageLoginsRequestDTO);
-            splashPageLoginsDetailDTO = new SplashPageLoginsDetailDTO(
-                    SplashPageLoginsDTO.fromSplashPageLogins(createSplashPageLoginsRequestDTO.getSplashPageLogins()),
-                    CustomersDTO.fromCustomer(customersService.getCustomer(createSplashPageLoginsRequestDTO.getCustomerID()))
-
-            );
-
-        } catch (IOException e) {
-
-        }
-        return new Response<>(ResponseCode.SUCCESS, "splashPageLogins  added.", splashPageLoginsDetailDTO);
-    }
 
     @CrossOrigin
     @GetMapping(path = "/splash_page_logins/", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -69,6 +50,26 @@ public class SplashPageLoginsController {
 
         return new Response<>(ResponseCode.SUCCESS, "OK", splashPageLoginsList);
 
+    }
+
+    @CrossOrigin
+    @PostMapping(path = "/splash_page_logins/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "create splash logins", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    private Response<SplashPageLoginsDetailDTO> CreateSplashPageLogins(@RequestBody CreateSplashPageLoginsRequestDTO createSplashPageLoginsRequestDTO) {
+
+        SplashPageLoginsDetailDTO splashPageLoginsDetailDTO = null;
+        try {
+            CreateSplashPageLoginsResponse createSplashPageLoginsResponse = splashPageLoginsService.CreateSplashPageLogins(createSplashPageLoginsRequestDTO);
+            splashPageLoginsDetailDTO = new SplashPageLoginsDetailDTO(
+                    SplashPageLoginsDTO.fromSplashPageLogins(createSplashPageLoginsRequestDTO.getSplashPageLogins()),
+                    CustomersDTO.fromCustomer(customersService.getCustomer(createSplashPageLoginsRequestDTO.getCustomerID()))
+
+            );
+
+        } catch (IOException e) {
+
+        }
+        return new Response<>(ResponseCode.SUCCESS, "splashPageLogins  added.", splashPageLoginsDetailDTO);
     }
 
 

@@ -28,16 +28,6 @@ public class BatchController  {
 
 
     @CrossOrigin
-    @PostMapping(path = "/batch/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Create Batch", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-
-    private Response<CreateBatchResponse> createBatchId(@RequestBody CreateBatchRequestDTO createBatchRequestDTO) {
-
-        CreateBatchResponse  createBatchResponse = batchService.createBatchId(createBatchRequestDTO);
-        return new Response<>(ResponseCode.SUCCESS, "Batch was added.", createBatchResponse);
-    }
-
-    @CrossOrigin
     @GetMapping(path = "/batches/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "list all batches?=true/false", produces = MediaType.APPLICATION_JSON_VALUE)
     public Response<List<Batch>> listBatches(
@@ -73,6 +63,15 @@ public class BatchController  {
 
         return new Response<>(ResponseCode.SUCCESS, "OK", batchList);
 
+    }
+    @CrossOrigin
+    @PostMapping(path = "/batch/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Create Batch", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+
+    private Response<CreateBatchResponse> createBatchId(@RequestBody CreateBatchRequestDTO createBatchRequestDTO) {
+
+        CreateBatchResponse  createBatchResponse = batchService.createBatchId(createBatchRequestDTO);
+        return new Response<>(ResponseCode.SUCCESS, "Batch was added.", createBatchResponse);
     }
 
 

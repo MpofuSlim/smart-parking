@@ -36,6 +36,10 @@ public class OrderService {
         return orderRepository.getReferenceById(id);
     }
 
+    public List<Order> getAllOrders() {
+        return  orderRepository.findAll();
+    }
+
     public List<Order> getOrdersByBusinessPartnerId(BusinessPartner businessPartner) {
         return orderRepository.findByBusinessPartner(businessPartner);
     }

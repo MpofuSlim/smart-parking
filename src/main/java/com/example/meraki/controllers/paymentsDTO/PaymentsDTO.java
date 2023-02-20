@@ -21,16 +21,16 @@ import java.util.Date;
 @ApiModel(description = "payments")
 public class PaymentsDTO {
 
-    @ApiModelProperty(value ="amount paid", required = true, example = "")
+    @ApiModelProperty(value ="amount paid", required = true, example = "1.2")
     private Double amountPaid;
 
     @ApiModelProperty(value ="Date paid", required = true, example = "")
     private Date datePaid;
 
-    @ApiModelProperty(value ="paid account", required = true, example = "")
+    @ApiModelProperty(value ="paid account", required = true, example = "0782606983")
     private String paying_account;
 
-    @ApiModelProperty(value ="location", required = true, example = "")
+    @ApiModelProperty(value ="location", required = true, example = "12 Harare Drive")
     private  String  location;
 
     public static  PaymentsDTO fromPayments(Payments payments){

@@ -1,16 +1,9 @@
 package com.example.meraki.controllers.customerDTO;
 
-import com.example.meraki.controllers.vouchersDTO.VouchersDTO;
 import com.example.meraki.entities.Customers;
-import com.example.meraki.entities.User;
-import com.example.meraki.entities.Vouchers;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
-
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 @Getter
 @Setter
@@ -21,19 +14,19 @@ import javax.persistence.ManyToOne;
 public class CustomersDTO {
 
 
-    @ApiModelProperty(value ="voucher batchID", required = true, example = "")
+    @ApiModelProperty(value ="voucher batchID", required = true, example = "Mike")
     private String firstname;
 
-    @ApiModelProperty(value ="voucher batchName", required = true, example = "")
+    @ApiModelProperty(value ="voucher batchName", required = true, example = "Johns")
     private String surname;
 
-    @ApiModelProperty(value ="voucherCode", required = true, example = "")
+    @ApiModelProperty(value ="voucherCode", required = true, example = "078567893")
     private String phone_number;
 
-    @ApiModelProperty(value ="email", required = true, example = "")
+    @ApiModelProperty(value ="email", required = true, example = "mikejohns@gmail.com")
     private String email;
 
-    @ApiModelProperty(value ="password", required = true, example = "")
+    @ApiModelProperty(value ="password", required = true, example = "12345678")
     private String password;
 
     public static CustomersDTO fromCustomer(Customers customers){

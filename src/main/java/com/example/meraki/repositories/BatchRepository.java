@@ -11,4 +11,9 @@ public interface BatchRepository extends BaseRepository<Batch> {
       List<Batch>  findById(long id);
       List<Batch> findByActive(Boolean active);
 
+
+
+
+
+
 }

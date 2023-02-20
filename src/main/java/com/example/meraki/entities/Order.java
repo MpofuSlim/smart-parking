@@ -18,11 +18,11 @@ public class Order extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "business_partner_id", nullable = false)
+    @JoinColumn(name = "business_partner_id")
     private BusinessPartner businessPartner;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "admin_portal_users_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private AdminPortalUsers adminPortalUsers;
 
     @Column(name = "amount", nullable = false)

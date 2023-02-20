@@ -15,7 +15,7 @@ import lombok.*;
 @ApiModel(description = "role")
 public class RoleDTO {
 
-    @ApiModelProperty(value = "description of the role of the user. Required", required = true)
+    @ApiModelProperty(value = "description of the role of the user. Required", required = true, example = "admin")
     private String role;
 
     public static  RoleDTO fromRole(Role role){

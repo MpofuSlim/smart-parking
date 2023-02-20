@@ -18,7 +18,7 @@ public class Vouchers extends BaseEntity {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private AdminPortalUsers user;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "bundle_id", nullable = false)
@@ -32,7 +32,7 @@ public class Vouchers extends BaseEntity {
     @JoinColumn(name = "order_id")
     private Order order;
 
-    @Column(name = "voucher_code", nullable = false)
+    @Column(name = "voucher_code", nullable = false, unique = true)
     private String voucherCode;
 
     @Column(name = "encrypted_voucher_code", nullable = false, unique = true)

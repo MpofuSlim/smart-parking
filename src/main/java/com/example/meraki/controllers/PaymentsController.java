@@ -26,9 +26,20 @@ public class PaymentsController {
     @Autowired
     private PaymentsService paymentsService;
 
-
     @Autowired
     private CustomersService customersService;
+
+    @CrossOrigin
+    @GetMapping(path = "/payments/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "list all payments", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response<List<Payments>> listAllPayments(
+    ) {
+        List<Payments> payments;
+
+        payments = paymentsService.getAllPayments();
+
+        return new Response<>(ResponseCode.SUCCESS, "OK", payments);
+    }
 
     @CrossOrigin
     @PostMapping(path = "/payments/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -47,18 +58,6 @@ public class PaymentsController {
 
         }
         return new Response<>(ResponseCode.SUCCESS, "payment  added.", paymentsDetailDTO);
-    }
-
-    @CrossOrigin
-    @GetMapping(path = "/payments/", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "list all payments", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response<List<Payments>> listAllPayments(
-    ) {
-        List<Payments> payments;
-
-        payments = paymentsService.getAllPayments();
-
-        return new Response<>(ResponseCode.SUCCESS, "OK", payments);
     }
 
     @CrossOrigin

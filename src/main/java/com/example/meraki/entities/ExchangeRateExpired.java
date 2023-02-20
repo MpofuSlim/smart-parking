@@ -19,7 +19,7 @@ public class ExchangeRateExpired extends BaseEntity {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private AdminPortalUsers user;
 
     @Column(name = "rate", nullable = false)
     private Double rate;

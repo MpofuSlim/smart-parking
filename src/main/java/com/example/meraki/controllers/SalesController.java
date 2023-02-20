@@ -1,7 +1,9 @@
 package com.example.meraki.controllers;
 
 
+import com.example.meraki.entities.Batch;
 import com.example.meraki.entities.Bundles;
+import com.example.meraki.entities.Sales;
 import com.example.meraki.entities.Vouchers;
 import com.example.meraki.services.*;
 
@@ -35,6 +37,17 @@ public class SalesController {
     private VouchersService vouchersService;
 
 
+    @CrossOrigin
+    @GetMapping(path = "/batch{active}/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "batches?=true/false", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response<List<Vouchers>> getByBatchActive(
+    ) {
+        List<Vouchers> vouchers;
+
+        vouchers = vouchersService.getByActiveBatch(true);
+
+        return new Response<>(ResponseCode.SUCCESS, "OK", vouchers);
+    }
 
     @CrossOrigin
     @PostMapping(path = "/sales/{bundleId}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -42,13 +55,9 @@ public class SalesController {
     public Response<Stream<Vouchers>> getBatchByActive(
 
             @ApiParam(value = "bundleId of the voucher", example = "one", required = true)
-            @PathVariable Bundles bundleId, Boolean sold, Integer quantity)
+            @PathVariable Bundles bundleId, Integer quantity) {
 
-    {
-
-
-
-        List<Vouchers> vouchersList = vouchersService.getVouchersByBundleIdAndSold(bundleId, sold);
+        List<Vouchers> vouchersList = vouchersService.getVouchersByBundleIdAndSold(bundleId, false);
 
 
         return new Response<>(ResponseCode.SUCCESS, "OK", vouchersList.stream().limit(quantity));

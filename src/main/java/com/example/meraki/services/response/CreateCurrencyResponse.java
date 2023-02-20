@@ -1,8 +1,8 @@
 
 package com.example.meraki.services.response;
 
+import com.example.meraki.entities.AdminPortalUsers;
 import com.example.meraki.entities.Currency;
-import com.example.meraki.entities.User;
 import lombok.*;
 
 
@@ -15,7 +15,7 @@ public class CreateCurrencyResponse {
 
     private Currency currency;
 
-    private User user;
+    private AdminPortalUsers user;
 
 }
 

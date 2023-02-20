@@ -18,9 +18,6 @@ public class AdminPortalUsersService {
     @Autowired
     private AdminPortalUsersRepository adminPortalUsersRepository;
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private RoleRepository roleRepository;
 
     public AdminPortalUsersService(AdminPortalUsersRepository adminPortalUsersRepository) {
@@ -31,7 +28,7 @@ public class AdminPortalUsersService {
         return adminPortalUsersRepository.getReferenceById(id);
     }
 
-    public List<AdminPortalUsers> getAllAdminPortalUsers(){
+    public List<AdminPortalUsers> getAllAdminPortalUsers() {
         return adminPortalUsersRepository.findAll();
     }
 
@@ -75,11 +72,11 @@ public class AdminPortalUsersService {
                 adminPortalUsers.getActive()
         );
 
-        return  updateAdminPortalUsersResponse;
+        return updateAdminPortalUsersResponse;
     }
 
 
-   public boolean checkAdminExists(AdminLoginRequestDTO adminLoginRequestDTO) {
+    public boolean checkAdminExists(AdminLoginRequestDTO adminLoginRequestDTO) {
         AdminPortalUsers admin = adminPortalUsersRepository.findByEmailAddressAndPassword(adminLoginRequestDTO.getEmailAddress(), adminLoginRequestDTO.getPassword());
 
         if (admin == null) {
@@ -92,6 +89,7 @@ public class AdminPortalUsersService {
     public AdminLoginResponse loginResponse(AdminLoginRequestDTO adminLoginRequestDTO) {
         AdminPortalUsers admin = adminPortalUsersRepository.findByEmailAddressAndPassword(adminLoginRequestDTO.getEmailAddress(), adminLoginRequestDTO.getPassword());
         return new AdminLoginResponse(
+                admin.getId(),
                 admin.getFirstname(),
                 admin.getSurname(),
                 admin.getEmailAddress(),

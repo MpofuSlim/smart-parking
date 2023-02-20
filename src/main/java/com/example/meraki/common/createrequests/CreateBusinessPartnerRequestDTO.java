@@ -14,6 +14,8 @@ import lombok.*;
 @ApiModel(description = "create business_partner")
 public class CreateBusinessPartnerRequestDTO {
 
+
+    private  Long businessPartnerRolesID;
     private BusinessPartnerDTO businessPartner;
 
 }

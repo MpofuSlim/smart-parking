@@ -19,7 +19,7 @@ public class Networks extends BaseEntity {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private AdminPortalUsers user;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "organization_id", nullable = false)
