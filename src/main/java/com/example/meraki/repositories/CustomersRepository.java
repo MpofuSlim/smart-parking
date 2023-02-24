@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 public interface CustomersRepository extends BaseRepository<Customers>{
 
     Customers findByEmailAndPassword(String email, String password);
+
+    Boolean existsByEmail(String email);
 }

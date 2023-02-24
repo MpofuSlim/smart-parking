@@ -1,3 +1,4 @@
+/*
 package com.example.meraki.controllers;
 
 import com.example.meraki.common.createrequests.CreatePaymentsRequestDTO;
@@ -71,3 +72,4 @@ public class PaymentsController {
 
 
 }
+*/

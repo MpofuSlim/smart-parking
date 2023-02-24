@@ -1,23 +1,30 @@
 package com.example.meraki.services;
 
-import com.example.meraki.common.createrequests.*;
+import com.example.meraki.common.createrequests.CreateSellVoucherRequestDTO;
+import com.example.meraki.common.createrequests.CreateVoucherRequestDTO;
+import com.example.meraki.common.createrequests.CreateVoucherRequestVerificationDTO;
 import com.example.meraki.common.updaterequests.UpdateVoucherByBundleRequestDTO;
 import com.example.meraki.common.updaterequests.UpdateVoucherRequestDTO;
-import com.example.meraki.common.updaterequests.UpdateVouchersByVoucherIdRequestDTO;
 import com.example.meraki.entities.*;
 import com.example.meraki.repositories.*;
 import com.example.meraki.services.response.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 
 @Service
 public class VouchersService {
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @Autowired
     private VouchersRepository vouchersRepository;
@@ -77,7 +84,7 @@ public class VouchersService {
                 user1,
                 bundle1,
                 batch1,
-                null,
+                order1,
 
                 createVoucherRequestDTO.getVouchers().getVoucherCode(),
                 createVoucherRequestDTO.getVouchers().getEncryptedVoucherCode(),
@@ -101,6 +108,28 @@ public class VouchersService {
         );
     }
 
+    public int[] batchUpdate(List<Vouchers> vouchers) {
+
+        return this.jdbcTemplate.batchUpdate(
+                "update vouchers set sold = true where id = ?",
+                new BatchPreparedStatementSetter() {
+
+                    public void setValues(PreparedStatement ps, int i)
+                            throws SQLException {
+                        ps.setLong(1, vouchers.get(i).getId());
+                    }
+
+                    public int getBatchSize() {
+                        return vouchers.size();
+                    }
+
+                });
+
+    }
+
+    public List<Vouchers> getVouchersByActiveBatch(Boolean active){
+        return vouchersRepository.findByBatchActive(active);
+    }
     public CreateSellVoucherResponse createSellVoucherByVoucherId(CreateSellVoucherRequestDTO createSellVoucherRequestDTO) throws IOException {
 
         Vouchers voucher = vouchersRepository.getReferenceById(createSellVoucherRequestDTO.getId());

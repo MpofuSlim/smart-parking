@@ -2,8 +2,11 @@ package com.example.meraki.controllers;
 
 import com.example.meraki.common.createrequests.CreateBusinessPartnerRequestDTO;
 import com.example.meraki.common.updaterequests.UpdateBusinessPartnerRequestDTO;
-import com.example.meraki.entities.Bundles;
+import com.example.meraki.controllers.businessPartnerDTO.BusinessPartnerDTO;
+import com.example.meraki.controllers.businessPartnerDTO.BusinessPartnerDetailsDTO;
+import com.example.meraki.controllers.businessPartnerRolesDTO.BusinessPartnerRolesDTO;
 import com.example.meraki.entities.BusinessPartner;
+import com.example.meraki.services.BusinessPartnerRolesService;
 import com.example.meraki.services.BusinessPartnerService;
 import com.example.meraki.services.response.CreateBusinessPartnerResponse;
 import com.example.meraki.services.response.UpdateBusinessPartnerResponse;
@@ -19,6 +22,9 @@ import java.util.List;
 public class BusinessPartnerController {
     @Autowired
     private BusinessPartnerService businessPartnerService;
+
+    @Autowired
+    private BusinessPartnerRolesService businessPartnerRolesService;
 
     @CrossOrigin
     @GetMapping(path = "/businessPartners/", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -47,15 +53,21 @@ public class BusinessPartnerController {
 
     @CrossOrigin
     @PostMapping(path = "/business_partner/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Create business partner ", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response<CreateBusinessPartnerResponse> createBusinessPartner(
-            @ApiParam(required = true) @RequestBody CreateBusinessPartnerRequestDTO createBusinessPartnerRequestDTO) {
+    @ApiOperation(value = "create business partner", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response<BusinessPartnerDetailsDTO> createBusinessPartner(@RequestBody CreateBusinessPartnerRequestDTO createBusinessPartnerRequestDTO) {
 
-        CreateBusinessPartnerResponse createBusinessPartnerResponse=businessPartnerService.CreateBusinessPartner(createBusinessPartnerRequestDTO);
+        BusinessPartnerDetailsDTO businessPartnerDetailDTO = null;
 
-        return new Response<>(ResponseCode.SUCCESS, "Ok", createBusinessPartnerResponse);
+            CreateBusinessPartnerResponse createBusinessPartnerResponse = businessPartnerService.CreateBusinessPartner(createBusinessPartnerRequestDTO);
+            businessPartnerDetailDTO = new BusinessPartnerDetailsDTO(
+                    BusinessPartnerDTO.fromBusinessPartner(createBusinessPartnerResponse.getBusinessPartner()),
+                    BusinessPartnerRolesDTO.fromBusinessPartnerRoles(businessPartnerRolesService.getBusinessPartnerRoles(createBusinessPartnerRequestDTO.getBusinessPartnerRolesID()))
+            );
 
+
+        return new Response<>(ResponseCode.SUCCESS, "business partner was added.", businessPartnerDetailDTO);
     }
+
 
     @CrossOrigin
     @PutMapping("/businessPartner/{id}")

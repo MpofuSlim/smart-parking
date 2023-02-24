@@ -1,13 +1,13 @@
 package com.example.meraki.services;
 
 import com.example.meraki.common.createrequests.CreateBatchRequestDTO;
-import com.example.meraki.common.createrequests.CreateSellBatchRequestDTO;
 import com.example.meraki.common.updaterequests.UpdateBatchRequestDTO;
+import com.example.meraki.entities.AdminPortalUsers;
 import com.example.meraki.entities.Batch;
+import com.example.meraki.repositories.AdminPortalUsersRepository;
 import com.example.meraki.repositories.BatchRepository;
 import com.example.meraki.repositories.VouchersRepository;
 import com.example.meraki.services.response.CreateBatchResponse;
-import com.example.meraki.services.response.CreateSellBatchResponse;
 import com.example.meraki.services.response.UpdateBatchResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +23,9 @@ public class BatchService {
 
     @Autowired
     private VouchersRepository vouchersRepository;
+
+    @Autowired
+    private AdminPortalUsersRepository adminPortalUsersRepository;
 
     public List<Batch> getBatchById(long id) {
         return batchRepository.findById(id);
@@ -42,38 +45,24 @@ public class BatchService {
         return batchRepository.getReferenceById(id);
     }
 
-    public CreateBatchResponse createBatchId(CreateBatchRequestDTO createBatchRequestDTO) {
 
+
+    public CreateBatchResponse createBatch(CreateBatchRequestDTO createBatchRequestDTO) {
+
+        AdminPortalUsers user1 = adminPortalUsersRepository.getReferenceById(createBatchRequestDTO.getUserID());
         Batch batch = new Batch(
-
+                user1,
                 createBatchRequestDTO.getBatch().getBatchName(),
                 false,
                 false
         );
+
         batchRepository.save(batch);
         return new CreateBatchResponse(
-                batch
 
-        );
-
-    }
-
-
-    public CreateSellBatchResponse createBatch(CreateSellBatchRequestDTO createSellBatchRequestDTO) {
-
-        Batch batch = new Batch(
-
-                createSellBatchRequestDTO.getBatch().getBatchName(),
-                false,
-                false
-        );
-
-        batchRepository.save(batch);
-        return new CreateSellBatchResponse(
-                batch.getId(),
-
-                batch.getActive()
-        );
+                batch,
+                user1
+                );
 
     }
 

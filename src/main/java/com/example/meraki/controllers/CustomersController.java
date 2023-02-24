@@ -6,8 +6,11 @@ import com.example.meraki.common.updaterequests.UpdateCustomersRequestDTO;
 import com.example.meraki.controllers.customerDTO.CustomerDetailDTO;
 import com.example.meraki.controllers.customerDTO.CustomersDTO;
 import com.example.meraki.entities.Customers;
+import com.example.meraki.repositories.CustomersRepository;
 import com.example.meraki.services.CustomersService;
-import com.example.meraki.services.response.*;
+import com.example.meraki.services.response.CreateCustomerResponse;
+import com.example.meraki.services.response.CustomerLoginResponse;
+import com.example.meraki.services.response.UpdateCustomersResponse;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
@@ -15,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -23,6 +25,9 @@ import java.util.List;
 public class CustomersController {
     @Autowired
     private CustomersService customerService;
+
+    @Autowired
+    private CustomersRepository customersRepository;
 
 
     @CrossOrigin
@@ -37,23 +42,30 @@ public class CustomersController {
         return new Response<>(ResponseCode.SUCCESS, "OK", customers);
     }
 
+
     @CrossOrigin
     @PostMapping(path = "/customer/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "all customers", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    private Response<CustomerDetailDTO> CreateVoucherBatch(@RequestBody CreateCustomerRequestDTO createCustomerRequestDTO) {
+    public Response<CustomerDetailDTO> CreateVoucherBatch(@RequestBody CreateCustomerRequestDTO createCustomerRequestDTO) {
 
         CustomerDetailDTO customerDetailDTO = null;
-        try {
+        if (customersRepository.existsByEmail(createCustomerRequestDTO.getCustomers().getEmail())) {
+
+            return new Response<>(ResponseCode.DUPLICATE, "email already exists.", null);
+        }
             CreateCustomerResponse createCustomerResponse = customerService.createCustomer(createCustomerRequestDTO);
             customerDetailDTO = new CustomerDetailDTO(
                     CustomersDTO.fromCustomer(createCustomerResponse.getCustomers())
             );
 
-        } catch (IOException e) {
 
-        }
-        return new Response<>(ResponseCode.SUCCESS, "customer was added.", customerDetailDTO);
+        return new Response<>(ResponseCode.SUCCESS, "customer added successfully.", customerDetailDTO);
     }
+
+
+
+
+
 
     @CrossOrigin
     @PostMapping(path = "/customer/login/", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -15,22 +15,19 @@ import java.math.BigDecimal;
 @ApiModel(description = "payments")
 public class CustomerPaymentDTO {
 
-    @ApiModelProperty(value = "amount", required = true, example = "1")
-    private BigDecimal amount;
-
-    @ApiModelProperty(value = "phone_number", required = true, example = "0782606983")
-    private String phoneNumber;
-
-    @ApiModelProperty(value = "product_id", required = true, example = "1")
-    private Long productId;
-
-    @ApiModelProperty(value = "email", required = true, example = "mpofuslim@gmail.com")
+    @ApiModelProperty(value = "email", required = true ,example = "t.knigel3@gmail.com")
     private String email;
 
-    @ApiModelProperty(value = "product_title", required = true, example = "Bundle")
-    private String productTitle;
+    @ApiModelProperty(value = "product title", required = true ,example = "Apple")
+    private String title;
 
-    public static CustomerPaymentDTO fromCustomerPayment(CustomerPayment customerPayment) {
-        return new CustomerPaymentDTO(customerPayment.getAmount(), customerPayment.getPhoneNumber(), customerPayment.getProductId(),customerPayment.getEmail(), customerPayment.getProductTitle());
+    @ApiModelProperty(value = "amount", required = true ,example = "2.3")
+    private double amount;
+
+    @ApiModelProperty(value = "phone", required = true ,example = "0771111111")
+    private String phone;
+
+    public static CustomerPaymentDTO fromCustomerPayment(CustomerPayment customerPayment){
+        return new CustomerPaymentDTO(customerPayment.getEmail(), customerPayment.getTitle(), customerPayment.getAmount(), customerPayment.getPhone());
     }
 }

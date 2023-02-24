@@ -14,6 +14,6 @@ public class CreateAdminPortalUsersRolesRequestDTO {
 
     private AdminPortalUsersRolesDTO adminPortalUsersRolesDTO;
 
-    private Long userID;
+
 
 }

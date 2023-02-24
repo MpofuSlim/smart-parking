@@ -3,13 +3,16 @@ package com.example.meraki.services;
 import com.example.meraki.common.createrequests.CreateAdminPortalUsersRequestDTO;
 import com.example.meraki.common.misc.AdminLoginRequestDTO;
 import com.example.meraki.common.updaterequests.UpdateAdminPortalUsersRequestDTO;
-import com.example.meraki.entities.*;
-import com.example.meraki.repositories.*;
-import com.example.meraki.services.response.*;
+import com.example.meraki.entities.AdminPortalUsers;
+import com.example.meraki.entities.Role;
+import com.example.meraki.repositories.AdminPortalUsersRepository;
+import com.example.meraki.repositories.RoleRepository;
+import com.example.meraki.services.response.AdminLoginResponse;
+import com.example.meraki.services.response.CreateAdminPortalUsersResponse;
+import com.example.meraki.services.response.UpdateAdminPortalUsersResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -33,7 +36,7 @@ public class AdminPortalUsersService {
     }
 
 
-    public CreateAdminPortalUsersResponse createAdminPortalUsers(CreateAdminPortalUsersRequestDTO createAdminPortalUsersRequestDTO) throws IOException {
+    public CreateAdminPortalUsersResponse createAdminPortalUsers(CreateAdminPortalUsersRequestDTO createAdminPortalUsersRequestDTO) {
 
         Role role1 = roleRepository.getReferenceById(createAdminPortalUsersRequestDTO.getRoleID());
         AdminPortalUsers adminPortalUsers = new AdminPortalUsers(
@@ -61,6 +64,7 @@ public class AdminPortalUsersService {
         AdminPortalUsers adminPortalUsers = adminPortalUsersRepository.getReferenceById(updateAdminPortalUsersRequestDTO.getId());
         adminPortalUsers.setFirstname(updateAdminPortalUsersRequestDTO.getFirstname());
         adminPortalUsers.setSurname(updateAdminPortalUsersRequestDTO.getSurname());
+        adminPortalUsers.setPassword(updateAdminPortalUsersRequestDTO.getPassword());
         adminPortalUsers.setEmailAddress(updateAdminPortalUsersRequestDTO.getEmailAddress());
 
         adminPortalUsersRepository.save(adminPortalUsers);

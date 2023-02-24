@@ -18,12 +18,16 @@ public class BusinessPartnerRolesService {
         this.businessPartnerRolesRepository = businessPartnerRolesRepository;
     }
 
+    public BusinessPartnerRoles getBusinessPartnerRoles(Long id) {
+        return businessPartnerRolesRepository.getReferenceById(id);
+    }
+
     public List<BusinessPartnerRoles> listAllBusinessPartnerRoles(){
         return businessPartnerRolesRepository.findAll();
     }
 
     @Transactional
-    public CreateBusinessPartnerRolesResponse createBusinessPartnerRoles (CreateBusinessPartnerRolesRequestDTO createBusinessPartnerRolesRequestDTO) throws IOException {
+    public CreateBusinessPartnerRolesResponse createBusinessPartnerRoles (CreateBusinessPartnerRolesRequestDTO createBusinessPartnerRolesRequestDTO) {
         BusinessPartnerRoles businessPartnerRoles = new BusinessPartnerRoles(
                 createBusinessPartnerRolesRequestDTO.getBusinessPartnerRoles().getName(),
                 createBusinessPartnerRolesRequestDTO.getBusinessPartnerRoles().getVat(),

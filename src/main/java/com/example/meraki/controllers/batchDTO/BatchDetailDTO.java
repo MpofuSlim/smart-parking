@@ -1,6 +1,6 @@
 package com.example.meraki.controllers.batchDTO;
 
-import com.example.meraki.controllers.vouchersDTO.VouchersDTO;
+import com.example.meraki.controllers.adminPortalUsersDTO.AdminPortalUsersDTO;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
 
@@ -14,5 +14,5 @@ public class BatchDetailDTO {
 
     private BatchDTO batch;
 
-    private VouchersDTO voucher;
+    private AdminPortalUsersDTO user;
 }

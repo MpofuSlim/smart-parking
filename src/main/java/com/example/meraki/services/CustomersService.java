@@ -11,7 +11,6 @@ import com.example.meraki.services.response.UpdateCustomersResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -31,7 +30,7 @@ public class CustomersService {
     public List<Customers> getAllCustomers(){
         return customersRepository.findAll();
     }
-    public CreateCustomerResponse createCustomer(CreateCustomerRequestDTO createCustomerRequestDTO) throws IOException {
+    public CreateCustomerResponse createCustomer(CreateCustomerRequestDTO createCustomerRequestDTO) {
 
         Customers customers = new Customers(
 

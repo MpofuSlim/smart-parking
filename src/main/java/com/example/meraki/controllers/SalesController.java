@@ -1,12 +1,12 @@
 package com.example.meraki.controllers;
 
 
-import com.example.meraki.entities.Batch;
 import com.example.meraki.entities.Bundles;
-import com.example.meraki.entities.Sales;
 import com.example.meraki.entities.Vouchers;
-import com.example.meraki.services.*;
-
+import com.example.meraki.services.BundlesService;
+import com.example.meraki.services.OrderService;
+import com.example.meraki.services.SalesService;
+import com.example.meraki.services.VouchersService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
@@ -15,8 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
@@ -37,32 +35,57 @@ public class SalesController {
     private VouchersService vouchersService;
 
 
-    @CrossOrigin
-    @GetMapping(path = "/batch{active}/", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "batches?=true/false", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response<List<Vouchers>> getByBatchActive(
-    ) {
-        List<Vouchers> vouchers;
-
-        vouchers = vouchersService.getByActiveBatch(true);
-
-        return new Response<>(ResponseCode.SUCCESS, "OK", vouchers);
-    }
 
     @CrossOrigin
     @PostMapping(path = "/sales/{bundleId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Sell a  voucher by bundle id.", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response<Stream<Vouchers>> getBatchByActive(
+    public Response<Stream<Vouchers>> sellByBundleId(
 
             @ApiParam(value = "bundleId of the voucher", example = "one", required = true)
-            @PathVariable Bundles bundleId, Integer quantity) {
+            @PathVariable Bundles bundleId, Boolean sold, Integer quantity)
+    {
 
-        List<Vouchers> vouchersList = vouchersService.getVouchersByBundleIdAndSold(bundleId, false);
+        List<Vouchers> vouchersList = vouchersService.getVouchersByBundleIdAndSold(bundleId, sold);
 
 
         return new Response<>(ResponseCode.SUCCESS, "OK", vouchersList.stream().limit(quantity));
 
     }
+
+    @CrossOrigin
+    @GetMapping(path = "/vouchers/{active}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "retrieve vouchers by active batch.", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response<List<Vouchers>> getByActiveBatch()
+
+    {
+
+        List<Vouchers> vouchers = vouchersService.getVouchersByActiveBatch(true);
+
+
+        return new Response<>(ResponseCode.SUCCESS, "OK",vouchers);
+
+    }
+
+    @CrossOrigin
+    @PutMapping(path = "/sales/{voucherId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Update sold status of vouchers.", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response<int[] > updateBatchToSold(
+
+            @ApiParam(value = "update sold by voucher list", example = "1,2,3", required = true)
+            @PathVariable List<Vouchers> voucherId)
+
+    {
+
+
+
+        int[] vouchersList = vouchersService.batchUpdate(voucherId);
+
+
+        return new Response<>(ResponseCode.SUCCESS, "OK", vouchersList);
+
+    }
+
+
 
 
 }

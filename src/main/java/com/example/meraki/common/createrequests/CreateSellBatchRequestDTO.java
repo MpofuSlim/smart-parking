@@ -14,4 +14,5 @@ public class CreateSellBatchRequestDTO {
     private BatchDTO batch;
 
 
+
 }

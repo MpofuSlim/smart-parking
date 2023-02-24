@@ -1,10 +1,9 @@
 package com.example.meraki.controllers.businessPartnerRolesDTO;
 
+import com.example.meraki.entities.BusinessPartnerRoles;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
-
-import javax.persistence.Column;
 
 @Getter
 @Setter
@@ -22,4 +21,8 @@ public class BusinessPartnerRolesDTO {
 
     @ApiModelProperty(value = "discount of the business partners", required = true,example = "7.8")
     private Double discount;
+
+    public static BusinessPartnerRolesDTO fromBusinessPartnerRoles(BusinessPartnerRoles businessPartnerRoles){
+        return new BusinessPartnerRolesDTO (businessPartnerRoles.getName(), businessPartnerRoles.getVat(), businessPartnerRoles.getDiscount());
+    }
 }

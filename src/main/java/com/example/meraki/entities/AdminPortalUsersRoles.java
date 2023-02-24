@@ -18,7 +18,6 @@ public class AdminPortalUsersRoles extends BaseEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedBy
     @Column(name = "date_created", nullable = false)

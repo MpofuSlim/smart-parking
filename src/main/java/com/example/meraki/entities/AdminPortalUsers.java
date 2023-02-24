@@ -1,10 +1,8 @@
 package com.example.meraki.entities;
 
 import lombok.*;
-import org.springframework.data.annotation.CreatedBy;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -17,7 +15,7 @@ public class AdminPortalUsers extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
-    @OneToOne(optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
 

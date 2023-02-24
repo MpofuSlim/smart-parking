@@ -2,12 +2,6 @@ package com.example.meraki.common.updaterequests;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
-import org.springframework.data.annotation.CreatedBy;
-
-import javax.persistence.Column;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -27,6 +21,9 @@ public class UpdateAdminPortalUsersRequestDTO {
 
     @ApiModelProperty(value = "email-address", example = "")
     private String emailAddress;
+
+    @ApiModelProperty(value = "password", example = "")
+    private String password;
 
     @ApiModelProperty(value = "active state", example = "")
     private Boolean active = false;

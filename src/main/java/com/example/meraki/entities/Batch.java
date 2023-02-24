@@ -14,6 +14,10 @@ public class Batch extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    private AdminPortalUsers user;
+
 
     @Column(name = "batchName", nullable = false)
     private String batchName;

@@ -1,95 +1,101 @@
 package com.example.meraki.services;
 
 
-import com.example.meraki.config.gateway.PaymentGatewayRequest;
-import com.example.meraki.config.gateway.PaymentGatewayService;
-import com.example.meraki.config.gateway.PaymentResponse;
-import com.example.meraki.common.createrequests.CreateCustomerPaymentRequestDTO;
+import com.example.meraki.controllers.customerDTO.CustomerPaymentRequestDTO;
 import com.example.meraki.entities.CustomerPayment;
 import com.example.meraki.entities.Customers;
 import com.example.meraki.repositories.CustomerPaymentRepository;
 import com.example.meraki.repositories.CustomersRepository;
-import com.example.meraki.services.response.CreateCustomerPaymentResponse;
-import lombok.extern.slf4j.Slf4j;
+import com.example.meraki.services.response.CustomerPaymentResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import zw.co.paynow.constants.MobileMoneyMethod;
+import zw.co.paynow.core.Payment;
+import zw.co.paynow.core.Paynow;
+import zw.co.paynow.responses.MobileInitResponse;
 
 import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
-@Slf4j
 @Service
 public class CustomerPaymentService {
+    private Paynow paynow;
+
     @Autowired
-    private PaymentGatewayService paymentGatewayService;
+    private CustomerPaymentRepository customerPaymentRepository;
 
     @Autowired
     private CustomersRepository customersRepository;
 
-    @Autowired
-    public CustomerPaymentRepository customerPaymentRepository;
-
-    public List<CustomerPayment> getAllCustomerPayments() {
+    public List<CustomerPayment> getAllCustomerPayments(){
         return customerPaymentRepository.findAll();
     }
 
-    public List<CustomerPayment> getByCustomerId(Customers customer) {
+    public List<CustomerPayment> getByCustomerId(Customers customer){
         return customerPaymentRepository.findByCustomer(customer);
     }
 
-    public CustomerPaymentService(CustomerPaymentRepository customerPaymentRepository, CustomersRepository customersRepository) {
+
+    public CustomerPaymentService(@Autowired Paynow paynow,CustomerPaymentRepository customerPaymentRepository,CustomersRepository customersRepository) {
+        this.paynow = paynow;
         this.customerPaymentRepository = customerPaymentRepository;
         this.customersRepository = customersRepository;
     }
 
 
-    public boolean checkCustomerIdExistsInCustomer(Long id, CustomersService customersService) {
-        boolean result = false;
+    public boolean checkCustomerIdExistsInCustomer(Long id,CustomersService customersService){
+        boolean result=false;
 
         try {
 
             customerPaymentRepository.findByCustomer(customersService.getCustomer(id));
-        } catch (EntityNotFoundException entityNotFoundException) {
-            result = true;
+        }catch (EntityNotFoundException entityNotFoundException){
+            result=true;
         }
-        return result;
+        return  result;
     }
 
-    public CreateCustomerPaymentResponse initiateMobileMoneyPayment(CreateCustomerPaymentRequestDTO createCustomerPaymentRequestDTO) throws IOException {
-        Customers customer1 = customersRepository.getReferenceById(createCustomerPaymentRequestDTO.getCustomerID());
-
-        log.info("Starting payment");
-
-        CustomerPayment customerPayment1 = new CustomerPayment(
+    public CustomerPaymentResponse MobilePay(CustomerPaymentRequestDTO customerPaymentDTO) throws IOException {
+        Customers customer1 =  customersRepository.getReferenceById(customerPaymentDTO.getCustomerID());
+        CustomerPayment customerPayment = new CustomerPayment(
                 customer1,
-                createCustomerPaymentRequestDTO.getCustomerPayment().getAmount(),
-                createCustomerPaymentRequestDTO.getCustomerPayment().getPhoneNumber(),
-                createCustomerPaymentRequestDTO.getCustomerPayment().getProductId(),
-                createCustomerPaymentRequestDTO.getCustomerPayment().getEmail(),
-                createCustomerPaymentRequestDTO.getCustomerPayment().getProductTitle()
+                customerPaymentDTO.getCustomerPayment().getEmail(),
+                customerPaymentDTO.getCustomerPayment().getTitle(),
+                customerPaymentDTO.getCustomerPayment().getAmount(),
+                customerPaymentDTO.getCustomerPayment().getPhone()
+
         );
+        Payment payment = paynow.createPayment(customerPayment.getReference(), customerPaymentDTO.getCustomerPayment().getEmail());
 
-        final PaymentGatewayRequest paymentRequest = PaymentGatewayRequest.builder()
-                .amount(createCustomerPaymentRequestDTO.getCustomerPayment().getAmount())
-                .msisdn(createCustomerPaymentRequestDTO.getCustomerPayment().getPhoneNumber())
-                .currencyCode("ZWL")
-                .reference(createCustomerPaymentRequestDTO.getCustomerPayment().getEmail()) //email
-                .remarks(createCustomerPaymentRequestDTO.getCustomerPayment().getProductTitle()) //product title
-                .reference(UUID.randomUUID().toString())
-                .build();
 
-        final PaymentResponse initiate = paymentGatewayService.initiate(paymentRequest);
+        payment.add(customerPaymentDTO.getCustomerPayment().getTitle(),customerPaymentDTO.getCustomerPayment().getAmount());
+
+
+        MobileInitResponse response = paynow.sendMobile(payment, customerPaymentDTO.getCustomerPayment().getPhone(), MobileMoneyMethod.ECOCASH);
+
 
         //Check if the request was successful
+        if (response.success()) {
 
-        customerPaymentRepository.save(customerPayment1);
-            return new CreateCustomerPaymentResponse(
-                    customerPayment1,
-                    customer1
-            );
+            //Instructions on how to make the mobile money payment
+            String instructions = response.instructions();
+
+            // Get the poll url of the transaction so you can poll the transaction status later if required
+            String pollUrl = response.pollUrl();
 
         }
-}
+        else {
+            // Something went wrong
+            System.out.println(response.errors());
+        }
 
+        customerPaymentRepository.save(customerPayment);
+
+        return new CustomerPaymentResponse(
+                customerPayment,
+                customer1
+        );
+
+    }
+}

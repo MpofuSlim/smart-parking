@@ -19,7 +19,7 @@ public class ShopTransactionService {
     public ResponseEntity<?> testAuth(String token) {
         try {// For login replace TestECocash with Login Object
             TestEcocash ecocash = new TestEcocash();
-            ecocash.setAmount(10);
+            ecocash.setAmount(1);
             ecocash.setCustomerMobileNumber("0782606983");
             ecocash.setMerchantRef("myRef123");
             ecocash.setTransactionDescription("Test payment");

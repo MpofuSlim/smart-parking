@@ -1,7 +1,6 @@
 package com.example.meraki.services.response;
 
-import com.example.meraki.entities.Vouchers;
-import io.swagger.annotations.ApiModelProperty;
+import com.example.meraki.entities.AdminPortalUsers;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
@@ -17,4 +16,6 @@ public class CreateSellBatchResponse {
 
     @ApiModelProperty(value = "Is item active?", example = "true")
     public Boolean active;
+
+    private AdminPortalUsers users;
 }

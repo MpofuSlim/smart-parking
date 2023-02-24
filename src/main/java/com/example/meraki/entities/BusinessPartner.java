@@ -1,7 +1,6 @@
 package com.example.meraki.entities;
 
 import lombok.*;
-import org.springframework.data.annotation.CreatedBy;
 
 import javax.persistence.*;
 
@@ -20,6 +19,7 @@ public class BusinessPartner extends BaseEntity {
     @ManyToOne(optional = false)
     @JoinColumn(name = "business_partner_role_id", nullable = false)
     private BusinessPartnerRoles businessPartnerRoles;
+
     @Column(name = "name", nullable = false)
     private String name;
 

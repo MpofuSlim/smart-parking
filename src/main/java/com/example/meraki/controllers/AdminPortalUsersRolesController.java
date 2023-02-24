@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
-@RestController
+
 @AllArgsConstructor
 public class AdminPortalUsersRolesController {
     @Autowired
@@ -39,7 +39,7 @@ public class AdminPortalUsersRolesController {
     @CrossOrigin
     @PostMapping(path = "/admin-portal-user-role/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "all admin-portal-users-roles", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    private Response<AdminPortalUsersRolesDetailDTO> CreateAdminPortalUserRoles(@RequestBody CreateAdminPortalUsersRolesRequestDTO createAdminPortalUsersRolesRequestDTO){
+    private Response<AdminPortalUsersRolesDetailDTO> createAdminPortalUserRoles(@RequestBody CreateAdminPortalUsersRolesRequestDTO createAdminPortalUsersRolesRequestDTO){
 
         AdminPortalUsersRolesDetailDTO adminPortalUsersRolesDetailDTO=null;
         try{

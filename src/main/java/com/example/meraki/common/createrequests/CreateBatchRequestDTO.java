@@ -15,6 +15,8 @@ public class CreateBatchRequestDTO {
 
     private BatchDTO batch;
 
+    private Long userID;
+
 
 
 }

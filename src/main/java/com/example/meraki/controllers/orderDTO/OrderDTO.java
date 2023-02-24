@@ -1,6 +1,10 @@
 package com.example.meraki.controllers.orderDTO;
 
 
+import com.example.meraki.controllers.adminPortalUsersDTO.AdminPortalUsersDTO;
+import com.example.meraki.controllers.businessPartnerDTO.BusinessPartnerDTO;
+import com.example.meraki.entities.AdminPortalUsers;
+import com.example.meraki.entities.BusinessPartner;
 import com.example.meraki.entities.Order;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -36,6 +40,8 @@ public class OrderDTO {
     public static OrderDTO fromOrder(Order order) {
         return new OrderDTO(order.getId(),order.getAmount(), order.getPayingAccountNumber(), order.getQuantity(), order.getDateCreated());
     }
+
+
 
 }
 

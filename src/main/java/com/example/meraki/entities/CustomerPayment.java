@@ -1,22 +1,22 @@
 package com.example.meraki.entities;
 
-import com.example.meraki.config.gateway.PaymentStatus;
 import lombok.*;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.security.SecureRandom;
-import java.time.LocalDateTime;
 import java.util.Base64;
 
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@EntityListeners(EntityManager.class)
 @ToString
 @Entity(name="customer_payment")
-public class CustomerPayment extends BaseEntity {
+public class CustomerPayment extends BaseEntity{
+
+    private static final long serialVersionUID = 1L;
 
     public static String generateRandomBase64Token(int byteLength) {
         SecureRandom secureRandom = new SecureRandom();
@@ -29,38 +29,27 @@ public class CustomerPayment extends BaseEntity {
     @JoinColumn(name = "customer_id", nullable = false)
     private Customers customer;
 
-    @Column(name = "amount", nullable = false)
-    private BigDecimal amount;
+    @Column(name="reference", nullable = false)
+    private String reference = generateRandomBase64Token(8) ;
 
-    @Column(name = "phone_number", nullable = false)
-    private String phoneNumber;
-
-    @Column(name = "product_id", nullable = false)
-    private Long productId;
-
-    @Column(name = "receipt_number", nullable = false)
-    private String receiptNumber = generateRandomBase64Token(8);
-
-    @Column(name = "email", nullable = false)
+    @Column(name="email", nullable = false)
     private String email;
 
-    //@Lob
-    @Column(name = "product_title", nullable = false)
-    private String productTitle;
+    @Column(name="product_title", nullable = false)
+    private String title;
 
-    @Column(name = "date_created", nullable = false)
-    private LocalDateTime dateCreated = LocalDateTime.now();
+    @Column(name="amount", nullable = false)
+    private double amount;
 
-    @Column(name = "status", length = 100, nullable = false)
-    private PaymentStatus status = PaymentStatus.PENDING;
+    @Column(name="phone", nullable = false)
+    private String phone;
 
-
-    public CustomerPayment(Customers customer, BigDecimal amount, String phoneNumber,Long productId,String email,String productTitle) {
+    public CustomerPayment(Customers customer,String email,String title, double amount,String phone){
         this.customer = customer;
-        this.amount = amount;
-        this.phoneNumber = phoneNumber;
-        this.productId = productId;
         this.email = email;
-        this.productTitle = productTitle;
+        this.title = title;
+        this.amount = amount;
+        this.phone = phone;
+
     }
 }

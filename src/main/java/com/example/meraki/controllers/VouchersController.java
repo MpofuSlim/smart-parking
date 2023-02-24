@@ -1,9 +1,6 @@
 package com.example.meraki.controllers;
 
-import com.example.meraki.common.createrequests.CreateSellBatchRequestDTO;
-import com.example.meraki.common.createrequests.CreateSellVoucherRequestDTO;
-import com.example.meraki.common.createrequests.CreateVoucherRequestDTO;
-import com.example.meraki.common.createrequests.CreateVoucherRequestVerificationDTO;
+import com.example.meraki.common.createrequests.*;
 import com.example.meraki.common.updaterequests.UpdateVoucherByBundleRequestDTO;
 import com.example.meraki.common.updaterequests.UpdateVoucherRequestDTO;
 import com.example.meraki.controllers.adminPortalUsersDTO.AdminPortalUsersDTO;
@@ -99,11 +96,11 @@ public class VouchersController {
     @CrossOrigin
     @PostMapping(path = "/voucher/sell-batch/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "sellByBatchId", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response<CreateSellBatchResponse> createSellVoucherBatchId(@RequestBody CreateSellBatchRequestDTO createSellBatchRequestDTO) {
+    public Response<CreateBatchResponse> createSellVoucherBatchId(@RequestBody CreateBatchRequestDTO createBatchRequestDTO) {
 
-        CreateSellBatchResponse createSellBatchResponse = batchService.createBatch(createSellBatchRequestDTO);
+        CreateBatchResponse createBatchRequest = batchService.createBatch(createBatchRequestDTO);
 
-        return new Response<>(ResponseCode.SUCCESS, "Batch added.", createSellBatchResponse);
+        return new Response<>(ResponseCode.SUCCESS, "Batch added.", createBatchRequest);
 
     }
 
@@ -131,7 +128,7 @@ public class VouchersController {
     @CrossOrigin
     @PostMapping(path = "/voucher/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "sell-batch", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    private Response<VoucherDetailDTO> CreateVoucherBatch(@RequestBody CreateVoucherRequestDTO createVoucherRequestDTO) {
+    public Response<VoucherDetailDTO> createVoucherBatch(@RequestBody CreateVoucherRequestDTO createVoucherRequestDTO) {
 
 
         VoucherDetailDTO voucherDetailDTO = null;

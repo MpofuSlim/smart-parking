@@ -2,7 +2,11 @@ package com.example.meraki.controllers;
 
 import com.example.meraki.common.createrequests.CreateBatchRequestDTO;
 import com.example.meraki.common.updaterequests.UpdateBatchRequestDTO;
+import com.example.meraki.controllers.adminPortalUsersDTO.AdminPortalUsersDTO;
+import com.example.meraki.controllers.batchDTO.BatchDTO;
+import com.example.meraki.controllers.batchDTO.BatchDetailDTO;
 import com.example.meraki.entities.Batch;
+import com.example.meraki.services.AdminPortalUsersService;
 import com.example.meraki.services.BatchService;
 import com.example.meraki.services.VouchersService;
 import com.example.meraki.services.response.CreateBatchResponse;
@@ -26,6 +30,8 @@ public class BatchController  {
     @Autowired
     private VouchersService voucherService;
 
+    @Autowired
+    private AdminPortalUsersService adminPortalUsersService;
 
     @CrossOrigin
     @GetMapping(path = "/batches/", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -66,12 +72,19 @@ public class BatchController  {
     }
     @CrossOrigin
     @PostMapping(path = "/batch/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Create Batch", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "create batch", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response<BatchDetailDTO> createBatch(@RequestBody CreateBatchRequestDTO createBatchRequestDTO) {
 
-    private Response<CreateBatchResponse> createBatchId(@RequestBody CreateBatchRequestDTO createBatchRequestDTO) {
+        BatchDetailDTO batchDetailDTO = null;
 
-        CreateBatchResponse  createBatchResponse = batchService.createBatchId(createBatchRequestDTO);
-        return new Response<>(ResponseCode.SUCCESS, "Batch was added.", createBatchResponse);
+        CreateBatchResponse createBatch = batchService.createBatch(createBatchRequestDTO);
+        batchDetailDTO = new BatchDetailDTO(
+                BatchDTO.fromBatch(createBatch.getBatch()),
+                AdminPortalUsersDTO.fromAdminPortalUsers(adminPortalUsersService.getAdminPortalUser(createBatchRequestDTO.getUserID()))
+        );
+
+
+        return new Response<>(ResponseCode.SUCCESS, "batch was added.", batchDetailDTO);
     }
 
 
