@@ -2,7 +2,9 @@ package com.example.meraki.services;
 
 import com.example.meraki.common.createrequests.CreateSplashPageConnectionsRequestDTO;
 import com.example.meraki.common.updaterequests.UpdateSplashPageConnectionsRequestDTO;
-import com.example.meraki.entities.*;
+import com.example.meraki.entities.Customers;
+import com.example.meraki.entities.SplashPageConnections;
+import com.example.meraki.entities.Vouchers;
 import com.example.meraki.repositories.CustomersRepository;
 import com.example.meraki.repositories.SplashPageConnectionsRepository;
 import com.example.meraki.repositories.VouchersRepository;

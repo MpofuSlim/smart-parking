@@ -1,12 +1,8 @@
 package com.example.meraki.services;
 
-import com.example.meraki.common.createrequests.CreateRoleRequestDTO;
 import com.example.meraki.common.createrequests.CreateSplashPageActivitiesRequestDTO;
-import com.example.meraki.entities.Role;
 import com.example.meraki.entities.SplashPageActivities;
-import com.example.meraki.repositories.RoleRepository;
 import com.example.meraki.repositories.SplashPageActivitiesRepository;
-import com.example.meraki.services.response.CreateRoleResponse;
 import com.example.meraki.services.response.CreateSplashPageActivitiesResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

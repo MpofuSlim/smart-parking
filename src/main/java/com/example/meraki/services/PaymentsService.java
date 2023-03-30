@@ -2,7 +2,8 @@ package com.example.meraki.services;
 
 import com.example.meraki.common.createrequests.CreatePaymentsRequestDTO;
 import com.example.meraki.common.updaterequests.UpdatePaymentsRequestDTO;
-import com.example.meraki.entities.*;
+import com.example.meraki.entities.Customers;
+import com.example.meraki.entities.Payments;
 import com.example.meraki.repositories.CustomersRepository;
 import com.example.meraki.repositories.PaymentsRepository;
 import com.example.meraki.services.response.CreatePaymentsResponse;
